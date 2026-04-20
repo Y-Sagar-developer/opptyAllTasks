@@ -2,25 +2,22 @@
          --ink: #1a1208;
          --parchment: #f5ead6;
          --gold: #c9922a;
-         --gold-light: #e8b84b;
-         --wine: #5c1a1a;
          --forest: #1a3a2a;
          --cream: #fdf6e3;
-         --shadow: rgba(26, 18, 8, 0.3);
          --muted: #8a7a68;
-
      }
 
      * {
          margin: 0;
          padding: 0;
          box-sizing: border-box;
+         /* width = content + padding + border */
+         /* width = content (padding & border include) */
      }
 
      body {
          background: var(--ink);
          color: var(--parchment);
-         font-family: 'Cormorant Garamond', serif;
 
      }
 
@@ -46,7 +43,6 @@
      }
 
      .logo-text h1 {
-         font-family: 'Playfair Display', serif;
          font-size: 1.5rem;
          font-weight: 700;
          color: var(--gold);
@@ -87,8 +83,9 @@
          cursor: pointer;
      }
 
-     .hero {
+     /* hero  */
 
+     .hero {
          /* min-height: 88vh; */
          display: flex;
          align-items: center;
@@ -97,24 +94,23 @@
      }
 
      .hero-content {
-
          max-width: 680px;
      }
 
-     .hero-eyebrow {
+     .hero-line {
          display: flex;
          align-items: center;
          gap: 16px;
          margin-bottom: 28px;
      }
 
-     .hero-eyebrow span {
+     .hero-line span {
          height: 1px;
          width: 60px;
          background: var(--gold);
      }
 
-     .hero-eyebrow p {
+     .hero-line p {
          font-size: 0.75rem;
          letter-spacing: 0.3em;
          text-transform: uppercase;
@@ -152,26 +148,28 @@
          margin-left: auto;
      }
 
+     /* bottom animation  */
      .logo-wrappe {
          position: relative;
          width: 400px;
          height: 400px;
          margin-right: auto;
+
+         /* ------ */
      }
 
      .rotate-shape {
-         /* position: absolute; */
+         position: absolute;
          width: 100%;
          height: 100%;
-         top: 0;
-         left: 0;
+     
          animation: rotate360 30s linear infinite;
      }
 
      .main-logo {
          position: absolute;
-         width: 200px;
-         height: 200px;
+         width: 250px;
+         height: 250px;
          top: 50%;
          left: 50%;
          transform: translate(-50%, -50%);
@@ -186,6 +184,12 @@
              transform: rotate(360deg);
          }
      }
+
+     /* @keyframes rotate360 {
+         100% {
+             transform: rotate(360deg);
+         }
+     } */
 
 
      .stats {
@@ -259,6 +263,7 @@
      }
 
      .search-bar button {
+        /* flex: 1; */
          background: var(--gold);
          color: var(--ink);
          border: none;
