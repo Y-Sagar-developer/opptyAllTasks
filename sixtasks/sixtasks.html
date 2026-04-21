@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JS Tasks Dashboard</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
         body {
             font-family: sans-serif;
@@ -51,31 +56,28 @@
             border: 1px solid #ddd;
             border-radius: 8px;
             background: transparent;
-            font-size: 13px;
             cursor: pointer;
-            transition: background 0.15s;
         }
 
-        button:hover { background: #f0f0f0; }
+        button:hover {
+            background: #f0f0f0;
+        }
 
         .heading-display {
             font-size: 20px;
             font-weight: 500;
             min-height: 30px;
-            transition: color 0.3s;
         }
 
         .time-display {
             font-size: 22px;
             font-weight: 500;
-            font-variant-numeric: tabular-nums;
         }
 
         .count-display {
             font-size: 40px;
             font-weight: 500;
             text-align: center;
-            transition: color 0.3s;
         }
 
         .btn-row {
@@ -89,7 +91,6 @@
             height: 60px;
             border-radius: 8px;
             border: 1px solid #eee;
-            transition: background 0.3s;
         }
 
         .full-row {
@@ -99,7 +100,9 @@
             gap: 20px;
         }
 
-        .full-row > div { flex: 1; }
+        .full-row>div {
+            flex: 1;
+        }
 
         .dark body {
             background: #111;
@@ -122,125 +125,128 @@
             color: white;
         }
 
-        .dark button:hover { background: #2a2a2a; }
+        .dark button:hover {
+            background: #2a2a2a;
+        }
     </style>
 </head>
+
 <body>
 
-<div class="grid" id="app">
+    <div class="grid" id="app">
 
-    <!-- Task 1 -->
-    <div class="card">
-        <div class="card-label">Task 1 — Custom Heading</div>
-        <div class="heading-display" id="userText">Your heading</div>
-        <input type="text" id="ip1" placeholder="Type something...">
-        <button onclick="setCustomHeading()">Set Heading</button>
-    </div>
-
-    <!-- Task 2 -->
-    <div class="card">
-        <div class="card-label">Task 2 — Background Color</div>
-        <div class="color-box" id="colorBox"></div>
-        <button onclick="changeBgColor()">Random Color</button>
-    </div>
-
-    <!-- Task 3 -->
-    <div class="card">
-        <div class="card-label">Task 3 — Live Clock</div>
-        <div class="time-display" id="timeDisplay">--:--:--</div>
-        <div style="display:flex; gap:8px;">
-            <button onclick="startTime()" style="flex:1">Start</button>
-            <button onclick="stopTime()" style="flex:1">Stop</button>
+        <!-- Task 1 -->
+        <div class="card">
+            <div class="card-label">Task 1 — Custom Heading</div>
+            <div class="heading-display" id="userText">Your heading</div>
+            <input type="text" id="ip1" placeholder="Type something...">
+            <button onclick="setCustomHeading()">Set Heading</button>
         </div>
+
+        <!-- Task 2 -->
+        <div class="card">
+            <div class="card-label">Task 2 — Background Color</div>
+            <div class="color-box" id="colorBox"></div>
+            <button onclick="changeBgColor()">Random Color</button>
+        </div>
+
+        <!-- Task 3 -->
+        <div class="card">
+            <div class="card-label">Task 3 — Live Clock</div>
+            <div class="time-display" id="timeDisplay">--:--:--</div>
+            <div style="display:flex; gap:8px;">
+                <button onclick="startTime()" style="flex:1">Start</button>
+                <button onclick="stopTime()" style="flex:1">Stop</button>
+            </div>
+        </div>
+
+        <!-- Task 4 -->
+        <div class="card">
+            <div class="card-label">Task 4 — Counter</div>
+            <div class="count-display" id="count">0</div>
+            <div class="btn-row">
+                <button onclick="decrement()">−</button>
+                <button onclick="resetCounter()">Reset</button>
+                <button onclick="increment()">+</button>
+            </div>
+        </div>
+
+        <!-- Task 5 & 6 -->
+        <div class="card full-row">
+            <div>
+                <div class="card-label" style="margin-bottom:8px">Task 5 — Reset All</div>
+                <button onclick="resetAll()" style="width:100%">Reset All</button>
+            </div>
+            <div>
+                <div class="card-label" style="margin-bottom:8px">Task 6 — Dark Mode</div>
+                <button onclick="toggleDark()" style="width:100%" id="darkBtn">Toggle Dark Mode</button>
+            </div>
+        </div>
+
     </div>
 
-    <!-- Task 4 -->
-    <div class="card">
-        <div class="card-label">Task 4 — Counter</div>
-        <div class="count-display" id="count">0</div>
-        <div class="btn-row">
-            <button onclick="decrement()">−</button>
-            <button onclick="resetCounter()">Reset</button>
-            <button onclick="increment()">+</button>
-        </div>
-    </div>
+    <script>
+        let counter = 0;
+        counter=1
+        let timer = null;
+        let isDark = false;
 
-    <!-- Task 5 & 6 -->
-    <div class="card full-row">
-        <div>
-            <div class="card-label" style="margin-bottom:8px">Task 5 — Reset All</div>
-            <button onclick="resetAll()" style="width:100%">Reset All</button>
-        </div>
-        <div>
-            <div class="card-label" style="margin-bottom:8px">Task 6 — Dark Mode</div>
-            <button onclick="toggleDark()" style="width:100%" id="darkBtn">Toggle Dark Mode</button>
-        </div>
-    </div>
+        function setCustomHeading() {
+            let ip = document.getElementById("ip1");
+            let el = document.getElementById("userText");
+            if (!ip.value.trim()) return;
+            el.textContent = ip.value;
+            ip.value = "";
+        }
 
-</div>
+        function changeBgColor() {
+            let r = Math.floor(Math.random() * 256);
+            let g = Math.floor(Math.random() * 256);
+            let b = Math.floor(Math.random() * 256);
+            document.getElementById("colorBox").style.background = `rgb(${r},${g},${b})`;
+        }
 
-<script>
-    let counter = 0;
-    let timer = null;
-    let isDark = false;
+        function startTime() {
+            if (timer) return;
+            timer = setInterval(() => {
+                document.getElementById("timeDisplay").textContent = new Date().toLocaleTimeString();
+            }, 1000);
+        }
 
-    function setCustomHeading() {
-        let ip = document.getElementById("ip1");
-        let el = document.getElementById("userText");
-        if (!ip.value.trim()) return;
-        let hue = Math.floor(Math.random() * 360);
-        el.style.color = `hsl(${hue}, 65%, 45%)`;
-        el.textContent = ip.value;
-        ip.value = "";
-    }
+        function stopTime() {
+            clearInterval(timer);
+            timer = null;
+        }
 
-    function changeBgColor() {
-        let r = Math.floor(Math.random() * 256);
-        let g = Math.floor(Math.random() * 256);
-        let b = Math.floor(Math.random() * 256);
-        document.getElementById("colorBox").style.background = `rgb(${r},${g},${b})`;
-    }
+        function updateCount() {
+            let el = document.getElementById("count");
+            el.textContent = counter;
+            el.style.color = counter > 0 ? "green" : counter < 0 ? "red" : "black";
+        }
 
-    function startTime() {
-        if (timer) return;
-        timer = setInterval(() => {
-            document.getElementById("timeDisplay").textContent = new Date().toLocaleTimeString();
-        }, 1000);
-    }
+        function increment() { counter++; updateCount(); }
+        function decrement() { counter--; updateCount(); }
+        function resetCounter() { counter = 0; updateCount(); }
 
-    function stopTime() {
-        clearInterval(timer);
-        timer = null;
-    }
+        function resetAll() {
+            document.getElementById("userText").textContent = "Your heading";
+            document.getElementById("userText").style.color = "";
+            document.getElementById("ip1").value = "";
+            document.getElementById("colorBox").style.background = "";
+            stopTime();
+            document.getElementById("timeDisplay").textContent = "--:--:--";
+            counter = 0;
+            updateCount();
+        }
 
-    function updateCount() {
-        let el = document.getElementById("count");
-        el.textContent = counter;
-        el.style.color = counter > 0 ? "green" : counter < 0 ? "red" : "black";
-    }
-
-    function increment() { counter++; updateCount(); }
-    function decrement() { counter--; updateCount(); }
-    function resetCounter() { counter = 0; updateCount(); }
-
-    function resetAll() {
-        document.getElementById("userText").textContent = "Your heading";
-        document.getElementById("userText").style.color = "";
-        document.getElementById("ip1").value = "";
-        document.getElementById("colorBox").style.background = "";
-        stopTime();
-        document.getElementById("timeDisplay").textContent = "--:--:--";
-        counter = 0;
-        updateCount();
-    }
-
-    function toggleDark() {
-        isDark = !isDark;
-        document.documentElement.classList.toggle("dark", isDark);
-        document.getElementById("darkBtn").textContent = isDark ? "Back to Light" : "Toggle Dark Mode";
-    }
-</script>
+        function toggleDark() {
+            isDark = !isDark;
+            document.documentElement.classList.toggle("dark", isDark);
+            document.getElementById("darkBtn").textContent = isDark ? "Back to Light" : "Toggle Dark Mode";
+        }
+        
+    </script>
 
 </body>
-</html>
 
+</html>

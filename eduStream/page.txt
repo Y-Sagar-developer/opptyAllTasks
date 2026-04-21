@@ -1,0 +1,13 @@
+total = 12 courses, perPage = 6
+
+totalPages = Math.ceil(12/6) = 2 pages
+
+Page 1:
+  start = (1-1) * 6 = 0
+  end   = Math.min(0+6, 12) = 6
+  → courses[0] to courses[5] చూపించు
+
+Page 2:
+  start = (2-1) * 6 = 6
+  end   = Math.min(6+6, 12) = 12
+  → courses[6] to courses[11] చూపించు

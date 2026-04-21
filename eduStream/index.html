@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+        <header>
+        <!-- Top row: logo + buttons -->
+        <div class="row1">
+            <div>
+                <h1 style="display:inline;">📚 EduStream</h1>
+                <span id="badge">0 Courses</span>
+            </div>
+            <div style="display:flex;gap:8px;">
+                <button class="btn-green" onclick="openAddForm()">+ Add Course</button>
+                <button class="btn-plain" id="darkBtn" onclick="toggleDark()">🌙</button>
+            </div>
+        </div>
+
+        <!-- Filter row -->
+        <div class="filters">
+            <input type="text" id="search" placeholder="🔍 Search..." oninput="applyFilters()">
+            <select id="dept" onchange="applyFilters()">
+                <option value="all">All Departments</option>
+            </select>
+            <select id="sort" onchange="applyFilters()">
+                <option value="">Sort: Default</option>
+                <option value="asc">Seats: Low to High</option>
+                <option value="desc">Seats: High to Low</option>
+            </select>
+            <label class="chk"><input type="checkbox" id="avail" onchange="applyFilters()"> Available Only</label>
+            <button class="btn-plain" onclick="resetAll()">✕ Reset</button>
+        </div>
+    </header>
+
+    <main>
+        <!-- Pagination bar -->
+        <div id="pagebar">
+            <span id="pginfo">Showing 0 courses</span>
+            <div id="pgbtns"></div>
+        </div>
+
+        <!-- Cards grid -->
+        <div id="grid"></div>
+
+        <!-- No results message -->
+        <div id="noresult">
+            <p style="font-size:40px;">🔍</p>
+            <h2>No courses found</h2>
+            <p>Try a different search or reset filters.</p>
+            <br>
+            <button class="btn-blue" style="width:auto;padding:9px 24px;" onclick="resetAll()">Reset Filters</button>
+        </div>
+    </main>
+
+    <script src="./script.js"></script>
+</body>
+</html>
