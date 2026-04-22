@@ -1,11 +1,563 @@
-        // 1. OUR DATA
-        var courses = [];   
-        var shown = [];    
-        var page = 1;   
-        var perPage = 6;    
-        var keyword = '';   
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <title>EduStream</title>
+    <style>
+        /* ---- PAGE ---- */
+        body {
+            font-family: Arial;
+            background: #f0f4f8;
+            margin: 0;
+        }
+
+        /* ---- HEADER ---- */
+        header {
+            background: white;
+            padding: 14px 20px;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .row1 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 22px;
+            color: #1e3a8a;
+        }
+
+        #badge {
+            background: #eff6ff;
+            color: #2563eb;
+            border: 1px solid #bfdbfe;
+            padding: 3px 12px;
+            border-radius: 99px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+
+        /* ---- FILTER BAR ---- */
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+        }
+
+        input[type=text] {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            width: 180px;
+        }
+
+        select {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .chk {
+            font-size: 14px;
+            color: #555;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* ---- BUTTONS ---- */
+        .btn-green {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-green:hover {
+            background: #059669;
+        }
+
+        .btn-plain {
+            background: none;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 6px 10px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        /* ---- MAIN ---- */
+        main {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* ---- PAGINATION BAR ---- */
+        #pagebar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 14px;
+        }
+
+        #pgbtns {
+            display: flex;
+            gap: 6px;
+        }
+
+        .pgbtn {
+            padding: 5px 12px;
+            border: 1px solid #ddd;
+            border-radius: 7px;
+            background: white;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .pgbtn:hover {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .pgbtn.active {
+            background: #2563eb;
+            color: white;
+            border-color: #2563eb;
+        }
+
+        .pgbtn:disabled {
+            opacity: 0.4;
+            cursor: default;
+        }
+
+        /* ---- CARDS ---- */
+        #grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 16px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            transition: transform .2s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, .08);
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .dept {
+            font-size: 11px;
+            font-weight: bold;
+            color: #94a3b8;
+            text-transform: uppercase;
+        }
+
+        .badge-open {
+            font-size: 11px;
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 6px;
+            background: #ecfdf5;
+            color: #059669;
+            border: 1px solid #bbf7d0;
+        }
+
+        .badge-full {
+            font-size: 11px;
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 6px;
+            background: #fff1f2;
+            color: #e11d48;
+            border: 1px solid #fecdd3;
+        }
+
+        .ctitle {
+            font-size: 15px;
+            font-weight: bold;
+            margin-bottom: 4px;
+            line-height: 1.3;
+        }
+
+        .cfaculty {
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 14px;
+        }
+
+        .card-foot {
+            margin-top: auto;
+            border-top: 1px solid #f1f5f9;
+            padding-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .slabel {
+            font-size: 10px;
+            font-weight: bold;
+            color: #94a3b8;
+            text-transform: uppercase;
+        }
+
+        .sval {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .sval.red {
+            color: #ef4444;
+        }
+
+        .bar {
+            height: 4px;
+            background: #e2e8f0;
+            border-radius: 2px;
+            margin-top: 4px;
+        }
+
+        .bar-in {
+            height: 100%;
+            border-radius: 2px;
+        }
+
+        .btn-enroll {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 7px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-enroll:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-enroll:disabled {
+            background: #f1f5f9;
+            color: #94a3b8;
+            border: 1px solid #ddd;
+            cursor: default;
+        }
+
+        mark {
+            background: #fef08a;
+            color: #92400e;
+            border-radius: 2px;
+        }
+
+        /* ---- NO RESULTS ---- */
+        #noresult {
+            display: none;
+            text-align: center;
+            padding: 60px 20px;
+            color: #64748b;
+        }
+
+        /* ---- POPUP ---- */
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            padding: 20px;
+        }
+
+        .popup {
+            background: white;
+            border-radius: 16px;
+            padding: 26px;
+            width: 100%;
+            max-width: 400px;
+            animation: pop .2s ease;
+        }
+
+        @keyframes pop {
+            from {
+                transform: scale(.9);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .popup h2 {
+            font-size: 17px;
+            margin-bottom: 12px;
+        }
+
+        .drow {
+            display: flex;
+            justify-content: space-between;
+            padding: 7px 0;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 14px;
+        }
+
+        .drow:last-child {
+            border: none;
+        }
+
+        .dk {
+            color: #64748b;
+        }
+
+        .dv {
+            font-weight: bold;
+        }
+
+        .btn-blue {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 11px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 8px;
+        }
+
+        .btn-blue:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-gray {
+            background: #f1f5f9;
+            color: #1e293b;
+            border: none;
+            padding: 11px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 6px;
+        }
+
+        .btn-gray:hover {
+            background: #e2e8f0;
+        }
+
+        /* form fields */
+        .field {
+            margin-bottom: 12px;
+        }
+
+        .field label {
+            display: block;
+            font-size: 12px;
+            font-weight: bold;
+            color: #64748b;
+            margin-bottom: 4px;
+        }
+
+        .field input {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .twocol {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        /* ---- TOAST ---- */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #1e293b;
+            color: white;
+            padding: 11px 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: bold;
+            z-index: 200;
+        }
+
+        .toast.success {
+            border-left: 4px solid #10b981;
+        }
+
+        .toast.error {
+            border-left: 4px solid #ef4444;
+        }
+
+        /* ---- DARK MODE ---- */
+        body.dark {
+            background: #0f172a;
+            color: #f1f5f9;
+        }
+
+        body.dark header {
+            background: #1e293b;
+            border-color: #334155;
+        }
+
+        body.dark .card {
+            background: #1e293b;
+            border-color: #334155;
+        }
+
+        body.dark .popup {
+            background: #1e293b;
+        }
+
+        body.dark input,
+        body.dark select,
+        body.dark .field input {
+            background: #0f172a;
+            color: #f1f5f9;
+            border-color: #334155;
+        }
+
+        body.dark .btn-gray {
+            background: #334155;
+            color: #f1f5f9;
+        }
+
+        body.dark .pgbtn {
+            background: #1e293b;
+            color: #f1f5f9;
+            border-color: #334155;
+        }
+
+        body.dark .pgbtn.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        body.dark mark {
+            background: #92400e;
+            color: #fef08a;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: #aaa;
+            border-top: 1px solid #e2e8f0;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <!-- Top row: logo + buttons -->
+        <div class="row1">
+            <div>
+                <h1 style="display:inline;">📚 EduStream</h1>
+                <span id="badge">0 Courses</span>
+            </div>
+            <div style="display:flex;gap:8px;">
+                <button class="btn-green" onclick="openAddForm()">+ Add Course</button>
+                <button class="btn-plain" id="darkBtn" onclick="toggleDark()">🌙</button>
+            </div>
+        </div>
+
+        <!-- Filter row -->
+        <div class="filters">
+            <input type="text" id="search" placeholder="🔍 Search..." oninput="applyFilters()">
+            <select id="dept" onchange="applyFilters()">
+                <option value="all">All Departments</option>
+            </select>
+            <select id="sort" onchange="applyFilters()">
+                <option value="">Sort: Default</option>
+                <option value="asc">Seats: Low to High</option>
+                <option value="desc">Seats: High to Low</option>
+            </select>
+            <label class="chk"><input type="checkbox" id="avail" onchange="applyFilters()"> Available Only</label>
+            <button class="btn-plain" onclick="resetAll()">✕ Reset</button>
+        </div>
+    </header>
+
+    <main>
+        <!-- Pagination bar -->
+        <div id="pagebar">
+            <span id="pginfo">Showing 0 courses</span>
+            <div id="pgbtns"></div>
+        </div>
+
+        <!-- Cards grid -->
+        <div id="grid"></div>
+
+        <!-- No results message -->
+        <div id="noresult">
+            <p style="font-size:40px;">🔍</p>
+            <h2>No courses found</h2>
+            <p>Try a different search or reset filters.</p>
+            <br>
+            <button class="btn-blue" style="width:auto;padding:9px 24px;" onclick="resetAll()">Reset Filters</button>
+        </div>
+    </main>
+
+    <footer>© 2024 EduStream · University Course Hub</footer>
+
+    <script>
+
+        // ==============================
+        // 1. OUR DATA
+        // ==============================
+
+        var courses = [];    // all courses
+        var shown = [];    // courses after filter
+        var page = 1;     // current page number
+        var perPage = 6;     // cards per page
+        var keyword = '';    // search word
+
+        // ==============================
         // 2. DEFAULT COURSE LIST
+        // ==============================
+
         var defaultCourses = [
             { id: 1, title: "Neural Networks 101", dept: "Computer Science", faculty: "Dr. Aris", seats: 12, max: 50 },
             { id: 2, title: "Modernist Literature", dept: "English", faculty: "Prof. Sterling", seats: 0, max: 30 },
@@ -138,8 +690,8 @@
             pagebar.style.display = 'flex';
 
             var total = shown.length;
-            var totalPages = Math.ceil(total / perPage);  
-            var start = (page - 1) * perPage;
+            var totalPages = Math.ceil(total / perPage);   // e.g. 12 courses / 6 = 2 pages
+            var start = (page - 1) * perPage;         // page 1 = start 0, page 2 = start 6
             var end = Math.min(start + perPage, total);
 
             // Update badge and page info text
@@ -189,7 +741,9 @@
             container.appendChild(next);
         }
 
+        // ==============================
         // 9. MAKE ONE CARD
+        // ==============================
 
         function makeCard(c) {
             var full = c.seats <= 0;
@@ -202,9 +756,7 @@
                 var safe = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
                 return text.replace(new RegExp('(' + safe + ')', 'gi'), '<mark>$1</mark>');
             }
-// User "dr." అని type చేస్తే
-// "." special character — RegExp లో problem అవుతుంది
-// safe వల్ల special characters escape అవుతాయి ✅
+
             var card = document.createElement('div');
             card.className = 'card';
             card.onclick = function (e) {
@@ -232,14 +784,6 @@
 
             return card;
         }
-
-
-
-
-
-
-
-
 
         // ==============================
         // 10. ENROLL IN A COURSE
@@ -404,3 +948,8 @@
         // START!
         // ==============================
         window.onload = init;
+
+    </script>
+</body>
+
+</html>
