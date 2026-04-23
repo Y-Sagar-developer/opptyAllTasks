@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SVJ Educational Society - Courses</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ===== RESET ===== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* ===== COLORS ===== */
+    :root {
+      --navy:   #1a237e;
+      --orange: #f97316;
+      --white:  #ffffff;
+      --light:  #f1f5f9;
+      --gray:   #64748b;
+      --green:  #10b981;
+      --red:    #ef4444;
+      --border: #e2e8f0;
+    }
+
+    /* ===== BODY ===== */
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f8fafc;
+      color: #1e293b;
+    }
+
+    /* ===== TOP BAR ===== */
+    .topbar {
+      background: var(--navy);
+      color: white;
+      padding: 8px 30px;
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* ===== NAVBAR ===== */
+    .navbar {
+      background: white;
+      padding: 12px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid var(--border);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo-circle {
+      width: 48px;
+      height: 48px;
+      background: var(--navy);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 800;
+      font-size: 15px;
+      border: 3px solid #fbbf24;
+    }
+    .logo-name {
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--navy);
+    }
+    .logo-sub {
+      font-size: 11px;
+      color: var(--gray);
+    }
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 6px;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: #1e293b;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 7px 12px;
+      border-radius: 6px;
+    }
+    .nav-links a:hover,
+    .nav-links a.active {
+      background: #eff6ff;
+      color: var(--navy);
+    }
+    .btn-admission {
+      background: var(--orange);
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+    }
+    .btn-admission:hover { background: #ea6c10; }
+
+    /* ===== HERO ===== */
+    .hero {
+      background: linear-gradient(135deg, #e8eaf6, #fff3e0);
+      text-align: center;
+      padding: 50px 20px 40px;
+      border-bottom: 3px solid #fbbf24;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: var(--orange);
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 16px;
+      border-radius: 99px;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .hero h1 {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+    .hero h1 span { color: var(--orange); }
+    .hero p {
+      color: var(--gray);
+      font-size: 15px;
+      margin-bottom: 24px;
+    }
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .stat-box {
+      background: white;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 22px;
+      text-align: center;
+      min-width: 90px;
+    }
+    .stat-box.dark {
+      background: var(--navy);
+      border-color: var(--navy);
+    }
+    .stat-num {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--navy);
+    }
+    .stat-box.dark .stat-num { color: #fbbf24; }
+    .stat-label {
+      font-size: 11px;
+      color: var(--gray);
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .stat-box.dark .stat-label { color: rgba(255,255,255,0.7); }
+
+    /* ===== FILTER ===== */
+    .filter-bar {
+      background: white;
+      padding: 14px 30px;
+      border-bottom: 2px solid var(--border);
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      position: sticky;
+      top: 74px;
+      z-index: 90;
+    }
+    .filter-bar input,
+    .filter-bar select {
+      padding: 9px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: 'Poppins', sans-serif;
+      outline: none;
+      background: white;
+    }
+    .filter-bar input:focus,
+    .filter-bar select:focus {
+      border-color: var(--navy);
+    }
+    .filter-bar input { width: 220px; }
+    .btn-reset {
+      background: none;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 13px;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      color: var(--gray);
+    }
+    .btn-reset:hover { border-color: var(--red); color: var(--red); }
+
+    /* ===== MAIN ===== */
+    main {
+      max-width: 1100px;
+      margin: 30px auto;
+      padding: 0 24px;
+    }
+    .page-title {
+      text-align: center;
+      margin-bottom: 26px;
+    }
+    .page-title span {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--orange);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: block;
+      margin-bottom: 6px;
+    }
+    .page-title h2 {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--navy);
+    }
+    .page-title h2 em {
+      color: var(--orange);
+      font-style: normal;
+      border-bottom: 3px solid var(--orange);
+    }
+
+    /* ===== CARDS ===== */
+    #grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: white;
+      border: 1.5px solid var(--border);
+      border-top: 3px solid var(--navy);
+      border-radius: 14px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(26,35,126,0.12);
+      border-top-color: var(--orange);
+    }
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .branch-tag {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--navy);
+      background: #e8eaf6;
+      padding: 3px 10px;
+      border-radius: 99px;
+      text-transform: uppercase;
+      border: 1px solid #c5cae9;
+    }
+    .badge-open {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 6px;
+      background: #ecfdf5;
+      color: #059669;
+      border: 1px solid #bbf7d0;
+    }
+    .badge-full {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 6px;
+      background: #fff1f2;
+      color: var(--red);
+      border: 1px solid #fecdd3;
+    }
+    .course-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 4px;
+      line-height: 1.35;
+    }
+    .faculty {
+      font-size: 13px;
+      color: var(--gray);
+      margin-bottom: 14px;
+      font-weight: 600;
+    }
+    .card-bottom {
+      margin-top: auto;
+      border-top: 1px solid #f1f5f9;
+      padding-top: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .seat-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--gray);
+      text-transform: uppercase;
+    }
+    .seat-val {
+      font-size: 15px;
+      font-weight: 800;
+    }
+    .seat-val.red { color: var(--red); }
+    .progress-bar {
+      height: 5px;
+      background: #e2e8f0;
+      border-radius: 3px;
+      margin-top: 5px;
+      width: 110px;
+    }
+    .progress-fill {
+      height: 100%;
+      border-radius: 3px;
+    }
+    .btn-enroll {
+      background: var(--orange);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+      transition: background 0.2s;
+    }
+    .btn-enroll:hover:not(:disabled) { background: #ea6c10; }
+    .btn-enroll:disabled {
+      background: #f1f5f9;
+      color: #94a3b8;
+      border: 1.5px solid var(--border);
+      cursor: not-allowed;
+    }
+
+    /* ===== NO RESULT ===== */
+    #no-result {
+      display: none;
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--gray);
+    }
+    #no-result p:first-child { font-size: 44px; margin-bottom: 10px; }
+    #no-result h3 { font-size: 18px; margin-bottom: 6px; }
+
+    /* ===== OVERLAY ===== */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      padding: 20px;
+      backdrop-filter: blur(2px);
+    }
+    .popup {
+      background: white;
+      border-radius: 18px;
+      padding: 26px;
+      width: 100%;
+      max-width: 400px;
+      border-top: 4px solid var(--orange);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+      animation: popIn 0.2s ease;
+    }
+    @keyframes popIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
+    }
+    .popup h2 {
+      font-size: 18px;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+    .popup p.course-info {
+      font-size: 13px;
+      color: var(--gray);
+      margin-bottom: 16px;
+      background: #f8fafc;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border-left: 3px solid var(--orange);
+      line-height: 1.8;
+    }
+    .field {
+      margin-bottom: 12px;
+    }
+    .field label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gray);
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .field input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: 'Poppins', sans-serif;
+      outline: none;
+    }
+    .field input:focus { border-color: var(--navy); }
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .btn-submit {
+      background: var(--navy);
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 6px;
+      font-family: 'Poppins', sans-serif;
+    }
+    .btn-submit:hover { background: #283593; }
+    .btn-cancel {
+      background: #f1f5f9;
+      color: #1e293b;
+      border: none;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 8px;
+      font-family: 'Poppins', sans-serif;
+    }
+    .btn-cancel:hover { background: #e2e8f0; }
+    .success-icon {
+      width: 64px;
+      height: 64px;
+      background: #ecfdf5;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      margin: 0 auto 14px;
+      border: 3px solid #bbf7d0;
+    }
+
+    /* ===== TOAST ===== */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--navy);
+      color: white;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      z-index: 300;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      animation: slideIn 0.3s ease;
+      font-family: 'Poppins', sans-serif;
+    }
+    @keyframes slideIn {
+      from { transform: translateX(120px); opacity: 0; }
+      to   { transform: translateX(0); opacity: 1; }
+    }
+    .toast.success { border-left: 4px solid var(--green); }
+    .toast.error   { border-left: 4px solid var(--red); }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: #1a1a2e;
+      color: #94a3b8;
+      padding: 40px 30px 20px;
+      margin-top: 40px;
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1.5fr;
+      gap: 30px;
+      margin-bottom: 24px;
+    }
+    .footer-brand {
+      font-size: 15px;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 10px;
+    }
+    .footer-brand span { color: var(--orange); }
+    .footer-desc { font-size: 13px; line-height: 1.7; }
+    .footer-col h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 12px;
+      padding-bottom: 6px;
+      border-bottom: 2px solid var(--orange);
+      display: inline-block;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 8px; }
+    .footer-col ul li a {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 13px;
+    }
+    .footer-col ul li a:hover { color: var(--orange); }
+    .footer-contact { font-size: 13px; line-height: 2; }
+    .footer-bottom {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding-top: 16px;
+      border-top: 1px solid #334155;
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: #64748b;
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div>📞 +91 9440222669 &nbsp;|&nbsp; ✉ svjeducationalsociety@gmail.com &nbsp;|&nbsp; 📍 Andhra Pradesh, India</div>
+  <div>f &nbsp; in &nbsp; ▶</div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="logo">
+    <div class="logo-circle">SVJ</div>
+    <div>
+      <div class="logo-name">SVJ Educational Society</div>
+      <div class="logo-sub">Srikakulam · Est. 1997</div>
+    </div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Our Institution</a></li>
+    <li><a href="#">Information</a></li>
+    <li><a href="#" class="active">Courses</a></li>
+    <li><a href="#">Gallery</a></li>
+    <li><a href="#">Enquiry</a></li>
+  </ul>
+  <button class="btn-admission">Get Admissions →</button>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <span class="hero-badge">SVJ Educational Society</span>
+  <h1>Explore Our <span>Courses</span></h1>
+  <p>Find and enroll in courses across all branches of SVJ Educational Society, Srikakulam</p>
+  <div class="stats">
+    <div class="stat-box"><div class="stat-num">5+</div><div class="stat-label">Branches</div></div>
+    <div class="stat-box dark"><div class="stat-num">25K</div><div class="stat-label">Students</div></div>
+    <div class="stat-box"><div class="stat-num">14+</div><div class="stat-label">Courses</div></div>
+    <div class="stat-box"><div class="stat-num">100%</div><div class="stat-label">Govt. Approved</div></div>
+  </div>
+</div>
+
+<!-- FILTER BAR (Search + Branch only) -->
+<div class="filter-bar">
+  <input type="text" id="search" placeholder="Search course, faculty, branch..." oninput="applyFilters()">
+  <select id="branch" onchange="applyFilters()">
+    <option value="all">All Branches</option>
+  </select>
+  <button class="btn-reset" onclick="resetFilters()">✕ Reset</button>
+</div>
+
+<!-- MAIN -->
+<main>
+  <div class="page-title">
+    <span>SVJ Educational Society</span>
+    <h2>Explore Our <em>Branches</em> In SVJ</h2>
+  </div>
+
+  <div id="grid"></div>
+  <div id="no-result">
+    <p>🔍</p>
+    <h3>No courses found</h3>
+    <p>Try a different search or reset filters.</p>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">SVJ <span>Educational</span> Society</div>
+      <p class="footer-desc">SVJ Educational Institute was established in 1997 to cater educational needs of students in Srikakulam district, Andhra Pradesh. Affiliated and recognized by Govt of AP & Govt of India.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Our Institution</a></li>
+        <li><a href="#">Gallery</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Useful Links</h4>
+      <ul>
+        <li><a href="#">Contact Us</a></li>
+        <li><a href="#">Admissions</a></li>
+        <li><a href="#">Courses</a></li>
+        <li><a href="#">Testimonials</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact Us</h4>
+      <div class="footer-contact">
+        ✉ svjeducationalsociety@gmail.com<br>
+        📍 Near Govt Hospital, Srikakulam, AP 532001<br>
+        📞 +91 9440222669
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2024 SVJ Educational Society. All Rights Reserved.</span>
+    <span>Powered by WebCookie</span>
+  </div>
+</footer>
+
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+
+  // ============================================================
+  // STEP 1: SETUP - Formspree email setup
+  // ➡ Go to https://formspree.io/
+  // ➡ Sign up free with your email
+  // ➡ Create a new form → copy your Form ID (looks like: xpzgkwvb)
+  // ➡ Replace "YOUR_FORM_ID" below with your actual ID
+  // ============================================================
+  var FORMSPREE_ID = "YOUR_FORM_ID"; // ← Change this!
+
+
+  // ============================================================
+  // STEP 2: COURSES DATA - All courses listed here
+  // ============================================================
+  var courses = [
+    { id: 1,  title: "Mathematics - Advanced",        branch: "K-12 STEM School",   faculty: "Mr. Ravi Kumar",  seats: 20, max: 40 },
+    { id: 2,  title: "Science - Physics & Chemistry", branch: "K-12 STEM School",   faculty: "Mrs. Sunitha",    seats: 0,  max: 35 },
+    { id: 3,  title: "English Literature",            branch: "K-12 STEM School",   faculty: "Mr. Prasad",      seats: 15, max: 30 },
+    { id: 4,  title: "Computer Basics",               branch: "K-12 STEM School",   faculty: "Ms. Deepika",     seats: 8,  max: 25 },
+    { id: 5,  title: "B.Sc Computer Science",         branch: "SVJ Degree College", faculty: "Dr. Venkat Rao",  seats: 30, max: 60 },
+    { id: 6,  title: "B.Com General",                 branch: "SVJ Degree College", faculty: "Prof. Lakshmi",   seats: 0,  max: 50 },
+    { id: 7,  title: "B.A Economics",                 branch: "SVJ Degree College", faculty: "Dr. Ramesh",      seats: 22, max: 40 },
+    { id: 8,  title: "B.Sc Mathematics",              branch: "SVJ Degree College", faculty: "Prof. Anitha",    seats: 5,  max: 30 },
+    { id: 9,  title: "Crop Production Technology",    branch: "SVJ Polytechnic",    faculty: "Dr. Nagarjuna",   seats: 18, max: 35 },
+    { id: 10, title: "Soil Science & Agronomy",       branch: "SVJ Polytechnic",    faculty: "Mr. Srinivas",    seats: 0,  max: 30 },
+    { id: 11, title: "Agricultural Engineering",      branch: "SVJ Polytechnic",    faculty: "Dr. Padmavathi",  seats: 12, max: 25 },
+    { id: 12, title: "Horticulture & Floriculture",   branch: "SVJ Polytechnic",    faculty: "Mrs. Vijaya",     seats: 7,  max: 20 },
+    { id: 13, title: "B.A Distance Learning",         branch: "Distance Education", faculty: "Prof. Chandra",   seats: 50, max: 100 },
+    { id: 14, title: "B.Com Distance Learning",       branch: "Distance Education", faculty: "Mr. Mohan",       seats: 40, max: 80 }
+  ];
+
+  // Keep a filtered list
+  var filteredCourses = courses.slice();
+
+
+  // ============================================================
+  // STEP 3: BUILD BRANCH DROPDOWN from course data
+  // ============================================================
+  function buildBranchDropdown() {
+    var branches = [];
+    for (var i = 0; i < courses.length; i++) {
+      if (branches.indexOf(courses[i].branch) === -1) {
+        branches.push(courses[i].branch);
+      }
+    }
+    var sel = document.getElementById('branch');
+    for (var j = 0; j < branches.length; j++) {
+      var opt = document.createElement('option');
+      opt.value = branches[j];
+      opt.textContent = branches[j];
+      sel.appendChild(opt);
+    }
+  }
+
+
+  // ============================================================
+  // STEP 4: FILTER - search + branch filter
+  // ============================================================
+  function applyFilters() {
+    var keyword = document.getElementById('search').value.toLowerCase().trim();
+    var branch  = document.getElementById('branch').value;
+
+    filteredCourses = courses.filter(function(c) {
+      var matchBranch  = (branch === 'all') || (c.branch === branch);
+      var matchKeyword = !keyword ||
+        c.title.toLowerCase().indexOf(keyword)   > -1 ||
+        c.branch.toLowerCase().indexOf(keyword)  > -1 ||
+        c.faculty.toLowerCase().indexOf(keyword) > -1;
+      return matchBranch && matchKeyword;
+    });
+
+    renderCards();
+  }
+
+  function resetFilters() {
+    document.getElementById('search').value = '';
+    document.getElementById('branch').value = 'all';
+    filteredCourses = courses.slice();
+    renderCards();
+  }
+
+
+  // ============================================================
+  // STEP 5: RENDER CARDS on screen
+  // ============================================================
+  function renderCards() {
+    var grid     = document.getElementById('grid');
+    var noResult = document.getElementById('no-result');
+    grid.innerHTML = '';
+
+    if (filteredCourses.length === 0) {
+      noResult.style.display = 'block';
+      return;
+    }
+
+    noResult.style.display = 'none';
+
+    for (var i = 0; i < filteredCourses.length; i++) {
+      var card = makeCard(filteredCourses[i]);
+      grid.appendChild(card);
+    }
+  }
+
+  function makeCard(c) {
+    var isFull = c.seats <= 0;
+    var pct    = Math.round((c.seats / c.max) * 100);
+    var color  = pct > 30 ? '#10b981' : pct > 10 ? '#f59e0b' : '#ef4444';
+    if (isFull) color = '#ef4444';
+
+    var card = document.createElement('div');
+    card.className = 'card';
+
+    card.innerHTML =
+      '<div class="card-top">' +
+        '<span class="branch-tag">' + c.branch + '</span>' +
+        '<span class="' + (isFull ? 'badge-full' : 'badge-open') + '">' + (isFull ? 'FULL' : 'OPEN') + '</span>' +
+      '</div>' +
+      '<div class="course-title">' + c.title + '</div>' +
+      '<div class="faculty">👤 ' + c.faculty + '</div>' +
+      '<div class="card-bottom">' +
+        '<div>' +
+          '<div class="seat-label">Seats Available</div>' +
+          '<div class="seat-val' + (isFull ? ' red' : '') + '">' + (isFull ? 'Full' : c.seats + ' / ' + c.max) + '</div>' +
+          '<div class="progress-bar">' +
+            '<div class="progress-fill" style="width:' + (isFull ? 100 : pct) + '%; background:' + color + ';"></div>' +
+          '</div>' +
+        '</div>' +
+        '<button class="btn-enroll" ' + (isFull ? 'disabled' : '') + ' onclick="openEnrollForm(' + c.id + ')">' +
+          (isFull ? '🔒 Full' : '✍ Enroll') +
+        '</button>' +
+      '</div>';
+
+    return card;
+  }
+
+
+  // ============================================================
+  // STEP 6: ENROLL FORM POPUP
+  // ============================================================
+  function openEnrollForm(courseId) {
+    // Find the course by ID
+    var c = null;
+    for (var i = 0; i < courses.length; i++) {
+      if (courses[i].id === courseId) { c = courses[i]; break; }
+    }
+    if (!c || c.seats <= 0) return;
+
+    var overlay = document.createElement('div');
+    overlay.className = 'overlay';
+
+    overlay.innerHTML =
+      '<div class="popup">' +
+        '<h2>✍ Enroll in Course</h2>' +
+        '<p class="course-info">📚 ' + c.title + '<br>🏫 ' + c.branch + '<br>👤 ' + c.faculty + '</p>' +
+
+        '<div class="field">' +
+          '<label>Full Name *</label>' +
+          '<input id="eName" placeholder="Enter your full name">' +
+        '</div>' +
+
+        '<div class="field">' +
+          '<label>Email Address *</label>' +
+          '<input id="eEmail" type="email" placeholder="Enter your email">' +
+        '</div>' +
+
+        '<div class="two-col">' +
+          '<div class="field">' +
+            '<label>Phone *</label>' +
+            '<input id="ePhone" type="tel" placeholder="Phone number">' +
+          '</div>' +
+          '<div class="field">' +
+            '<label>Roll No. (Optional)</label>' +
+            '<input id="eRoll" placeholder="Roll number">' +
+          '</div>' +
+        '</div>' +
+
+        '<button class="btn-submit" onclick="submitEnroll(' + courseId + ')">✓ Confirm Enrollment</button>' +
+        '<button class="btn-cancel" onclick="closeOverlay()">Cancel</button>' +
+      '</div>';
+
+    document.body.appendChild(overlay);
+
+    // Click outside popup = close
+    overlay.addEventListener('click', function(e) {
+      if (e.target === overlay) closeOverlay();
+    });
+  }
+
+
+  // ============================================================
+  // STEP 7: SUBMIT ENROLLMENT → Send email via Formspree
+  // ============================================================
+  function submitEnroll(courseId) {
+    var name  = document.getElementById('eName').value.trim();
+    var email = document.getElementById('eEmail').value.trim();
+    var phone = document.getElementById('ePhone').value.trim();
+    var roll  = document.getElementById('eRoll').value.trim();
+
+    // Validate required fields
+    if (!name || !email || !phone) {
+      showToast('⚠ Please fill all required fields!', 'error');
+      return;
+    }
+
+    // Find course
+    var c = null;
+    for (var i = 0; i < courses.length; i++) {
+      if (courses[i].id === courseId) { c = courses[i]; break; }
+    }
+    if (!c) return;
+
+    // Send email using Formspree
+    // ➡ Replace YOUR_FORM_ID at the top of this file!
+    var formData = new FormData();
+    formData.append('Student Name',  name);
+    formData.append('Student Email', email);
+    formData.append('Phone',         phone);
+    formData.append('Roll Number',   roll || 'Not provided');
+    formData.append('Course',        c.title);
+    formData.append('Branch',        c.branch);
+    formData.append('Faculty',       c.faculty);
+
+    fetch('https://formspree.io/f/' + FORMSPREE_ID, {
+      method: 'POST',
+      body: formData,
+      headers: { 'Accept': 'application/json' }
+    })
+    .then(function(response) {
+      if (response.ok) {
+        // Email sent! Now reduce seat count
+        c.seats--;
+        closeOverlay();
+        showSuccessPopup(name, c);
+        renderCards();
+        showToast('🎉 Enrolled in "' + c.title + '"!', 'success');
+      } else {
+        showToast('❌ Email sending failed. Check your Formspree ID!', 'error');
+      }
+    })
+    .catch(function() {
+      showToast('❌ Network error. Please try again.', 'error');
+    });
+  }
+
+
+  // ============================================================
+  // STEP 8: SUCCESS POPUP after enrollment
+  // ============================================================
+  function showSuccessPopup(studentName, c) {
+    var overlay = document.createElement('div');
+    overlay.className = 'overlay';
+
+    overlay.innerHTML =
+      '<div class="popup" style="text-align:center;">' +
+        '<div class="success-icon">✅</div>' +
+        '<h2 style="color:#1a237e; margin-bottom:8px;">Enrollment Successful!</h2>' +
+        '<p style="color:#64748b; font-size:14px; margin-bottom:16px;">' +
+          'Welcome, <strong>' + studentName + '</strong>!<br>' +
+          'You are enrolled in <strong>' + c.title + '</strong>.' +
+        '</p>' +
+        '<div style="text-align:left; font-size:13px; color:#64748b; line-height:2; background:#f8fafc; padding:10px 14px; border-radius:8px; margin-bottom:14px;">' +
+          '🏫 Branch: <strong>' + c.branch + '</strong><br>' +
+          '👤 Faculty: <strong>' + c.faculty + '</strong><br>' +
+          '💺 Seats Remaining: <strong style="color:#10b981;">' + c.seats + '</strong>' +
+        '</div>' +
+        '<p style="font-size:12px; color:#94a3b8; margin-bottom:14px;">📧 A confirmation email has been sent!</p>' +
+        '<button class="btn-submit" onclick="closeOverlay()">🎉 Done</button>' +
+      '</div>';
+
+    document.body.appendChild(overlay);
+    overlay.addEventListener('click', function(e) {
+      if (e.target === overlay) closeOverlay();
+    });
+  }
+
+
+  // ============================================================
+  // HELPER FUNCTIONS
+  // ============================================================
+  function closeOverlay() {
+    var overlay = document.querySelector('.overlay');
+    if (overlay) overlay.remove();
+  }
+
+  function showToast(message, type) {
+    var old = document.querySelector('.toast');
+    if (old) old.remove();
+
+    var toast = document.createElement('div');
+    toast.className = 'toast ' + type;
+    toast.textContent = message;
+    document.body.appendChild(toast);
+
+    setTimeout(function() { toast.remove(); }, 3000);
+  }
+
+
+  // ============================================================
+  // START - runs when page loads
+  // ============================================================
+  window.onload = function() {
+    buildBranchDropdown();
+    renderCards();
+  };
+
+</script>
+</body>
+</html>

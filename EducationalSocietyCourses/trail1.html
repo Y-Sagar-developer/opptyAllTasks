@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SVJ Educational Society - Courses</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+    --navy: #1a237e; --navy2: #283593;
+    --orange: #f97316; --orange2: #ea6c10;
+    --cream: #fffbf5; --yellow: #fbbf24;
+    --green: #10b981; --red: #ef4444;
+    --text: #1e293b; --muted: #64748b;
+    --border: #e2e8f0; --white: #fff;
+}
+body { font-family: 'Open Sans', sans-serif; background: var(--cream); color: var(--text); }
+
+/* TOPBAR */
+.topbar { background: var(--navy); padding: 6px 40px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: rgba(255,255,255,0.85); }
+.topbar a { color: rgba(255,255,255,0.85); text-decoration: none; margin-right: 16px; }
+.topbar a:hover { color: white; }
+.topbar-right { display: flex; align-items: center; gap: 10px; }
+.social-icon { width: 26px; height: 26px; background: rgba(255,255,255,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; cursor: pointer; transition: background 0.2s; color: white; font-weight: 700; }
+.social-icon:hover { background: var(--orange); }
+
+/* NAVBAR */
+.navbar { background: white; padding: 10px 40px; display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #f1f5f9; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+.nav-logo { display: flex; align-items: center; gap: 12px; }
+.logo-circle { width: 52px; height: 52px; border-radius: 50%; background: var(--navy); display: flex; align-items: center; justify-content: center; font-size: 16px; color: white; font-weight: 800; font-family: 'Poppins',sans-serif; border: 3px solid var(--yellow); }
+.logo-texts .logo-title { font-family: 'Poppins',sans-serif; font-weight: 800; font-size: 15px; color: var(--navy); }
+.logo-texts .logo-sub { font-size: 10px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.nav-links { display: flex; align-items: center; gap: 2px; list-style: none; }
+.nav-links a { text-decoration: none; font-size: 12px; font-weight: 700; color: var(--text); padding: 8px 11px; border-radius: 6px; transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.3px; }
+.nav-links a:hover { color: var(--navy); background: #eff6ff; }
+.nav-links a.active { color: var(--navy); }
+.btn-admission { background: var(--orange); color: white; border: none; padding: 10px 18px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: 'Open Sans',sans-serif; transition: background 0.2s; white-space: nowrap; }
+.btn-admission:hover { background: var(--orange2); }
+
+/* HERO */
+.hero { background: linear-gradient(135deg, #e8eaf6 0%, #fffbf5 60%, #fff3e0 100%); padding: 50px 40px 44px; text-align: center; position: relative; overflow: hidden; border-bottom: 3px solid var(--yellow); }
+.hero::before { content:''; position:absolute; top:-40px; right:-40px; width:220px; height:220px; background:rgba(249,115,22,0.06); border-radius:50%; }
+.hero::after { content:''; position:absolute; bottom:-30px; left:-30px; width:160px; height:160px; background:rgba(26,35,126,0.05); border-radius:50%; }
+.hero-eyebrow { display:inline-block; background:var(--orange); color:white; font-size:11px; font-weight:700; padding:4px 16px; border-radius:99px; margin-bottom:14px; text-transform:uppercase; letter-spacing:1px; }
+.hero h1 { font-family:'Poppins',sans-serif; font-size:34px; font-weight:800; color:var(--navy); margin-bottom:10px; position:relative; z-index:1; }
+.hero h1 span { color:var(--orange); }
+.hero p { font-size:15px; color:var(--muted); max-width:520px; margin:0 auto 24px; position:relative; z-index:1; }
+.stats-row { display:flex; justify-content:center; gap:20px; flex-wrap:wrap; position:relative; z-index:1; }
+.stat-item { background:white; border:1.5px solid var(--border); border-radius:14px; padding:14px 24px; text-align:center; box-shadow:0 2px 10px rgba(0,0,0,0.06); min-width:90px; }
+.stat-item.highlight { background:var(--navy); border-color:var(--navy); }
+.stat-num { font-family:'Poppins',sans-serif; font-size:22px; font-weight:800; color:var(--navy); }
+.stat-item.highlight .stat-num { color:var(--yellow); }
+.stat-label { font-size:11px; color:var(--muted); font-weight:600; text-transform:uppercase; }
+.stat-item.highlight .stat-label { color:rgba(255,255,255,0.7); }
+
+/* FILTER */
+.filter-section { background:white; padding:16px 40px; border-bottom:2px solid var(--border); box-shadow:0 2px 8px rgba(0,0,0,0.04); position:sticky; top:74px; z-index:90; }
+.filter-title { font-size:11px; font-weight:700; color:var(--orange); text-transform:uppercase; letter-spacing:1px; margin-bottom:10px; }
+.filters { display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+.filters input[type=text] { padding:9px 14px; border:1.5px solid var(--border); border-radius:8px; font-size:14px; font-family:'Open Sans',sans-serif; width:220px; outline:none; transition:border-color 0.2s; }
+.filters input[type=text]:focus { border-color:var(--navy); }
+.filters select { padding:9px 14px; border:1.5px solid var(--border); border-radius:8px; font-size:14px; font-family:'Open Sans',sans-serif; outline:none; background:white; cursor:pointer; transition:border-color 0.2s; }
+.filters select:focus { border-color:var(--navy); }
+.chk { display:flex; align-items:center; gap:6px; font-size:14px; color:var(--muted); cursor:pointer; font-weight:600; }
+.chk input { accent-color:var(--navy); width:16px; height:16px; }
+.btn-reset { background:none; border:1.5px solid var(--border); border-radius:8px; padding:8px 14px; font-size:13px; cursor:pointer; font-family:'Open Sans',sans-serif; font-weight:700; color:var(--muted); transition:all 0.2s; }
+.btn-reset:hover { border-color:var(--red); color:var(--red); }
+
+/* MAIN */
+main { max-width:1200px; margin:0 auto; padding:30px 24px; }
+.section-heading { text-align:center; margin-bottom:28px; }
+.section-heading .eyebrow { font-size:12px; font-weight:700; color:var(--orange); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:6px; }
+.section-heading h2 { font-family:'Poppins',sans-serif; font-size:26px; font-weight:800; color:var(--navy); }
+.section-heading h2 span { color:var(--orange); border-bottom:3px solid var(--orange); padding-bottom:2px; }
+
+#pagebar { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; font-size:13px; color:var(--muted); font-weight:600; }
+#pgbtns { display:flex; gap:6px; }
+.pgbtn { padding:6px 14px; border:1.5px solid var(--border); border-radius:8px; background:white; font-size:13px; font-family:'Open Sans',sans-serif; font-weight:700; cursor:pointer; transition:all 0.2s; }
+.pgbtn:hover:not(:disabled) { background:#eff6ff; color:var(--navy); border-color:var(--navy); }
+.pgbtn.active { background:var(--navy); color:white; border-color:var(--navy); }
+.pgbtn:disabled { opacity:0.4; cursor:default; }
+
+/* CARDS */
+#grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(265px, 1fr)); gap:20px; }
+.card { background:white; border:1.5px solid var(--border); border-radius:16px; padding:18px; display:flex; flex-direction:column; cursor:pointer; transition:transform 0.2s, box-shadow 0.2s; box-shadow:0 3px 14px rgba(26,35,126,0.07); animation:fadeUp 0.35s ease both; border-top:3px solid var(--navy); }
+@keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+.card:hover { transform:translateY(-5px); box-shadow:0 14px 36px rgba(26,35,126,0.13); border-top-color:var(--orange); }
+.card-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+.branch-tag { font-size:10px; font-weight:700; color:var(--navy); background:#e8eaf6; padding:3px 10px; border-radius:99px; text-transform:uppercase; letter-spacing:0.4px; border:1px solid #c5cae9; }
+.badge-open { font-size:11px; font-weight:700; padding:3px 10px; border-radius:6px; background:#ecfdf5; color:#059669; border:1px solid #bbf7d0; }
+.badge-full { font-size:11px; font-weight:700; padding:3px 10px; border-radius:6px; background:#fff1f2; color:var(--red); border:1px solid #fecdd3; }
+.ctitle { font-family:'Poppins',sans-serif; font-size:15px; font-weight:700; margin-bottom:4px; line-height:1.35; color:var(--text); }
+.cfaculty { font-size:13px; color:var(--muted); margin-bottom:14px; font-weight:600; }
+.card-foot { margin-top:auto; border-top:1px solid #f1f5f9; padding-top:12px; display:flex; justify-content:space-between; align-items:center; gap:8px; }
+.slabel { font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.5px; }
+.sval { font-size:15px; font-weight:800; font-family:'Poppins',sans-serif; }
+.sval.red { color:var(--red); }
+.bar { height:5px; background:#e2e8f0; border-radius:3px; margin-top:5px; width:110px; }
+.bar-in { height:100%; border-radius:3px; transition:width 0.5s; }
+.btn-enroll { background:var(--orange); color:white; border:none; padding:8px 16px; border-radius:8px; font-size:13px; font-weight:700; cursor:pointer; font-family:'Open Sans',sans-serif; transition:background 0.2s, transform 0.15s; white-space:nowrap; }
+.btn-enroll:hover:not(:disabled) { background:var(--orange2); transform:scale(1.04); }
+.btn-enroll:disabled { background:#f1f5f9; color:#94a3b8; border:1.5px solid var(--border); cursor:default; transform:none; }
+mark { background:#fef08a; color:#92400e; border-radius:2px; }
+
+#noresult { display:none; text-align:center; padding:60px 20px; color:var(--muted); }
+#noresult p:first-child { font-size:48px; margin-bottom:12px; }
+#noresult h2 { font-family:'Poppins',sans-serif; font-size:20px; margin-bottom:6px; }
+
+/* OVERLAY */
+.overlay { position:fixed; inset:0; background:rgba(15,23,42,0.55); display:flex; align-items:center; justify-content:center; z-index:200; padding:20px; backdrop-filter:blur(2px); }
+.popup { background:white; border-radius:20px; padding:28px; width:100%; max-width:420px; animation:popIn 0.22s cubic-bezier(.34,1.56,.64,1); box-shadow:0 24px 60px rgba(0,0,0,0.2); border-top:4px solid var(--orange); }
+@keyframes popIn { from{transform:scale(0.88);opacity:0} to{transform:scale(1);opacity:1} }
+.popup-header { display:flex; align-items:center; gap:12px; margin-bottom:18px; padding-bottom:14px; border-bottom:1px solid var(--border); }
+.popup-icon { width:44px; height:44px; border-radius:12px; background:#e8eaf6; display:flex; align-items:center; justify-content:center; font-size:22px; flex-shrink:0; border:2px solid var(--navy); }
+.popup h2 { font-family:'Poppins',sans-serif; font-size:17px; font-weight:700; color:var(--navy); line-height:1.3; }
+.drow { display:flex; justify-content:space-between; align-items:center; padding:9px 0; border-bottom:1px solid #f1f5f9; font-size:14px; }
+.drow:last-of-type { border:none; }
+.dk { color:var(--muted); font-weight:600; }
+.dv { font-weight:700; color:var(--text); }
+.dv.red { color:var(--red); }
+.dv.green { color:var(--green); }
+.field { margin-bottom:13px; }
+.field label { display:block; font-size:11px; font-weight:700; color:var(--muted); margin-bottom:5px; text-transform:uppercase; letter-spacing:0.5px; }
+.field input { width:100%; padding:10px 12px; border:1.5px solid var(--border); border-radius:8px; font-size:14px; font-family:'Open Sans',sans-serif; outline:none; transition:border-color 0.2s; }
+.field input:focus { border-color:var(--navy); }
+.twocol { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.btn-orange { background:var(--orange); color:white; border:none; padding:12px; border-radius:10px; font-size:14px; font-weight:700; cursor:pointer; width:100%; margin-top:6px; font-family:'Open Sans',sans-serif; transition:background 0.2s; }
+.btn-orange:hover { background:var(--orange2); }
+.btn-navy { background:var(--navy); color:white; border:none; padding:12px; border-radius:10px; font-size:14px; font-weight:700; cursor:pointer; width:100%; margin-top:6px; font-family:'Open Sans',sans-serif; transition:background 0.2s; }
+.btn-navy:hover { background:var(--navy2); }
+.btn-light { background:#f1f5f9; color:var(--text); border:none; padding:12px; border-radius:10px; font-size:14px; font-weight:700; cursor:pointer; width:100%; margin-top:8px; font-family:'Open Sans',sans-serif; transition:background 0.2s; }
+.btn-light:hover { background:#e2e8f0; }
+.success-icon { width:68px; height:68px; background:#ecfdf5; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:34px; margin:0 auto 14px; border:3px solid #bbf7d0; }
+
+/* TOAST */
+.toast { position:fixed; bottom:24px; right:24px; background:var(--navy); color:white; padding:12px 18px; border-radius:10px; font-size:14px; font-weight:700; z-index:300; box-shadow:0 8px 24px rgba(0,0,0,0.2); animation:slideIn 0.3s ease; font-family:'Open Sans',sans-serif; }
+@keyframes slideIn { from{transform:translateX(120px);opacity:0} to{transform:translateX(0);opacity:1} }
+.toast.success { border-left:4px solid var(--green); }
+.toast.error   { border-left:4px solid var(--red); }
+
+/* FOOTER */
+footer { background:#1a1a2e; color:#cbd5e1; padding:40px; margin-top:40px; }
+.footer-grid { max-width:1200px; margin:0 auto 30px; display:grid; grid-template-columns:2fr 1fr 1fr 1.5fr; gap:32px; }
+.footer-logo { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+.footer-logo-circle { width:46px; height:46px; border-radius:50%; background:var(--navy); display:flex; align-items:center; justify-content:center; font-size:14px; color:white; font-weight:800; border:2px solid var(--yellow); }
+.footer-brand { font-family:'Poppins',sans-serif; font-size:15px; font-weight:700; color:white; line-height:1.3; }
+.footer-brand span { color:var(--orange); }
+.footer-desc { font-size:13px; line-height:1.7; color:#94a3b8; }
+.footer-col h4 { font-family:'Poppins',sans-serif; font-size:14px; font-weight:700; color:white; margin-bottom:14px; padding-bottom:6px; border-bottom:2px solid var(--orange); display:inline-block; }
+.footer-col ul { list-style:none; }
+.footer-col ul li { margin-bottom:8px; }
+.footer-col ul li a { color:#94a3b8; text-decoration:none; font-size:13px; transition:color 0.2s; }
+.footer-col ul li a:hover { color:var(--orange); }
+.footer-contact-item { display:flex; gap:8px; margin-bottom:10px; font-size:13px; color:#94a3b8; align-items:flex-start; }
+.footer-contact-item .icon { color:var(--orange); flex-shrink:0; margin-top:1px; }
+.footer-bottom { max-width:1200px; margin:0 auto; padding-top:20px; border-top:1px solid #334155; display:flex; justify-content:space-between; align-items:center; font-size:12px; color:#64748b; }
+.footer-social { display:flex; gap:8px; margin-top:14px; }
+.fsocial { width:30px; height:30px; border-radius:50%; background:rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:center; font-size:12px; cursor:pointer; transition:background 0.2s; color:white; font-weight:700; }
+.fsocial:hover { background:var(--orange); }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+    <div>
+        <a href="#">📞 +91 9440222669</a>
+        <a href="#">✉ svjeducationalsociety@gmail.com</a>
+        <a href="#">📍 Andhra Pradesh, India</a>
+    </div>
+    <div class="topbar-right">
+        <div class="social-icon">f</div>
+        <div class="social-icon">in</div>
+        <div class="social-icon">▶</div>
+    </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="nav-logo">
+        <div class="logo-circle">SVJ</div>
+        <div class="logo-texts">
+            <div class="logo-title">SVJ Educational Society</div>
+            <div class="logo-sub">Srikakulam · Est. 1997</div>
+        </div>
+    </div>
+    <ul class="nav-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Our Institution</a></li>
+        <li><a href="#">Information</a></li>
+        <li><a href="#" class="active">Courses</a></li>
+        <li><a href="#">Gallery</a></li>
+        <li><a href="#">Enquiry</a></li>
+    </ul>
+    <button class="btn-admission">Get Admissions →</button>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+    <span class="hero-eyebrow">SVJ Educational Society</span>
+    <h1>Explore Our <span>Courses</span></h1>
+    <p>Find and enroll in courses across all branches of SVJ Educational Society, Srikakulam, Andhra Pradesh</p>
+    <div class="stats-row">
+        <div class="stat-item"><div class="stat-num">5+</div><div class="stat-label">Branches</div></div>
+        <div class="stat-item highlight"><div class="stat-num">25K</div><div class="stat-label">Students</div></div>
+        <div class="stat-item"><div class="stat-num">14+</div><div class="stat-label">Courses</div></div>
+        <div class="stat-item"><div class="stat-num">100%</div><div class="stat-label">Govt. Approved</div></div>
+    </div>
+</div>
+
+<!-- FILTER -->
+<div class="filter-section">
+    <div class="filter-title">🔎 Filter Courses</div>
+    <div class="filters">
+        <input type="text" id="search" placeholder="Search course, faculty, branch..." oninput="applyFilters()">
+        <select id="branch" onchange="applyFilters()"><option value="all">All Branches</option></select>
+        <select id="sort" onchange="applyFilters()">
+            <option value="">Sort: Default</option>
+            <option value="asc">Seats: Low → High</option>
+            <option value="desc">Seats: High → Low</option>
+        </select>
+        <label class="chk"><input type="checkbox" id="avail" onchange="applyFilters()"> Available Only</label>
+        <button class="btn-reset" onclick="resetAll()">✕ Reset</button>
+    </div>
+</div>
+
+<!-- MAIN -->
+<main>
+    <div class="section-heading">
+        <span class="eyebrow">SVJ Educational Society</span>
+        <h2>Explore Our <span>Branches</span> In SVJ</h2>
+    </div>
+    <div id="pagebar">
+        <span id="pginfo">Showing 0 courses</span>
+        <div id="pgbtns"></div>
+    </div>
+    <div id="grid"></div>
+    <div id="noresult">
+        <p>🔍</p>
+        <h2>No courses found</h2>
+        <p>Try a different search or reset filters.</p>
+    </div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-grid">
+        <div>
+            <div class="footer-logo">
+                <div class="footer-logo-circle">SVJ</div>
+                <div>
+                    <div class="footer-brand">SVJ <span>Educational</span></div>
+                    <div style="font-size:11px;color:#64748b;">Society, Srikakulam</div>
+                </div>
+            </div>
+            <p class="footer-desc">SVJ Educational Institute was established in 1997 to cater educational needs of students in Srikakulam district, Andhra Pradesh. Affiliated and recognized by Govt of AP & Govt of India.</p>
+            <div class="footer-social">
+                <div class="fsocial">f</div>
+                <div class="fsocial">in</div>
+                <div class="fsocial">▶</div>
+            </div>
+        </div>
+        <div class="footer-col">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Our Institution</a></li>
+                <li><a href="#">Gallery</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Useful Links</h4>
+            <ul>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="#">Admissions</a></li>
+                <li><a href="#">Courses</a></li>
+                <li><a href="#">Testimonials</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Contact Us</h4>
+            <div class="footer-contact-item"><span class="icon">✉</span><span>svjeducationalsociety@gmail.com</span></div>
+            <div class="footer-contact-item"><span class="icon">📍</span><span>Near Govt Hospital, Srikakulam, Andhra Pradesh 532001</span></div>
+            <div class="footer-contact-item"><span class="icon">📞</span><span>+91 9440222669</span></div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>© 2024 SVJ Educational Society. All Rights Reserved.</span>
+        <span>Powered by WebCookie</span>
+    </div>
+</footer>
+
+<script>
+var courses=[], shown=[], page=1, perPage=6, keyword='';
+
+var defaultCourses=[
+    {id:1,  title:"Mathematics - Advanced",        branch:"K-12 STEM School",   faculty:"Mr. Ravi Kumar",  seats:20, max:40},
+    {id:2,  title:"Science - Physics & Chemistry", branch:"K-12 STEM School",   faculty:"Mrs. Sunitha",    seats:0,  max:35},
+    {id:3,  title:"English Literature",            branch:"K-12 STEM School",   faculty:"Mr. Prasad",      seats:15, max:30},
+    {id:4,  title:"Computer Basics",               branch:"K-12 STEM School",   faculty:"Ms. Deepika",     seats:8,  max:25},
+    {id:5,  title:"B.Sc Computer Science",         branch:"SVJ Degree College", faculty:"Dr. Venkat Rao",  seats:30, max:60},
+    {id:6,  title:"B.Com General",                 branch:"SVJ Degree College", faculty:"Prof. Lakshmi",   seats:0,  max:50},
+    {id:7,  title:"B.A Economics",                 branch:"SVJ Degree College", faculty:"Dr. Ramesh",      seats:22, max:40},
+    {id:8,  title:"B.Sc Mathematics",              branch:"SVJ Degree College", faculty:"Prof. Anitha",    seats:5,  max:30},
+    {id:9,  title:"Crop Production Technology",    branch:"SVJ Polytechnic",    faculty:"Dr. Nagarjuna",   seats:18, max:35},
+    {id:10, title:"Soil Science & Agronomy",       branch:"SVJ Polytechnic",    faculty:"Mr. Srinivas",    seats:0,  max:30},
+    {id:11, title:"Agricultural Engineering",      branch:"SVJ Polytechnic",    faculty:"Dr. Padmavathi",  seats:12, max:25},
+    {id:12, title:"Horticulture & Floriculture",   branch:"SVJ Polytechnic",    faculty:"Mrs. Vijaya",     seats:7,  max:20},
+    {id:13, title:"B.A Distance Learning",         branch:"Distance Education", faculty:"Prof. Chandra",   seats:50, max:100},
+    {id:14, title:"B.Com Distance Learning",       branch:"Distance Education", faculty:"Mr. Mohan",       seats:40, max:80},
+];
+
+function save(){ localStorage.setItem('svj_courses', JSON.stringify(courses)); }
+function load(){ var r=localStorage.getItem('svj_courses'); return r?JSON.parse(r):null; }
+
+function init(){
+    var saved=load();
+    courses=(saved&&saved.length>0)?saved:defaultCourses;
+    buildBranchDropdown();
+    applyFilters();
+}
+
+function buildBranchDropdown(){
+    var branches=[];
+    for(var i=0;i<courses.length;i++) if(branches.indexOf(courses[i].branch)===-1) branches.push(courses[i].branch);
+    var sel=document.getElementById('branch');
+    sel.innerHTML='<option value="all">All Branches</option>';
+    for(var j=0;j<branches.length;j++) sel.innerHTML+='<option value="'+branches[j]+'">'+branches[j]+'</option>';
+}
+
+function applyFilters(){
+    keyword=document.getElementById('search').value.trim().toLowerCase();
+    var branch=document.getElementById('branch').value;
+    var sort=document.getElementById('sort').value;
+    var avail=document.getElementById('avail').checked;
+    var result=courses.slice();
+    if(branch!=='all') result=result.filter(function(c){return c.branch===branch;});
+    if(avail) result=result.filter(function(c){return c.seats>0;});
+    if(keyword) result=result.filter(function(c){return c.title.toLowerCase().indexOf(keyword)>-1||c.branch.toLowerCase().indexOf(keyword)>-1||c.faculty.toLowerCase().indexOf(keyword)>-1;});
+    if(sort==='asc') result.sort(function(a,b){return a.seats-b.seats;});
+    if(sort==='desc') result.sort(function(a,b){return b.seats-a.seats;});
+    shown=result; page=1; render();
+}
+
+function render(){
+    var grid=document.getElementById('grid');
+    var noResult=document.getElementById('noresult');
+    var pagebar=document.getElementById('pagebar');
+    grid.innerHTML='';
+    if(shown.length===0){ noResult.style.display='block'; pagebar.style.display='none'; return; }
+    noResult.style.display='none'; pagebar.style.display='flex';
+    var total=shown.length, totalPages=Math.ceil(total/perPage);
+    var start=(page-1)*perPage, end=Math.min(start+perPage,total);
+    document.getElementById('pginfo').textContent='Showing '+(start+1)+'–'+end+' of '+total+' courses';
+    for(var i=start;i<end;i++) grid.appendChild(makeCard(shown[i]));
+    makePagination(totalPages);
+}
+
+function makePagination(totalPages){
+    var c=document.getElementById('pgbtns'); c.innerHTML='';
+    var prev=document.createElement('button'); prev.className='pgbtn'; prev.textContent='← Prev'; prev.disabled=(page===1); prev.onclick=function(){page--;render();}; c.appendChild(prev);
+    for(var i=1;i<=totalPages;i++){var btn=document.createElement('button'); btn.className='pgbtn'+(i===page?' active':''); btn.textContent=i; btn.onclick=(function(p){return function(){page=p;render();};})(i); c.appendChild(btn);}
+    var next=document.createElement('button'); next.className='pgbtn'; next.textContent='Next →'; next.disabled=(page===totalPages); next.onclick=function(){page++;render();}; c.appendChild(next);
+}
+
+function makeCard(c){
+    var full=c.seats<=0, pct=Math.round(c.seats/c.max*100);
+    var color=pct>30?'#10b981':pct>10?'#f59e0b':'#ef4444';
+    function hl(text){ if(!keyword)return text; var safe=keyword.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); return text.replace(new RegExp('('+safe+')','gi'),'<mark>$1</mark>'); }
+    var card=document.createElement('div'); card.className='card';
+    card.onclick=function(e){ if(e.target.classList.contains('btn-enroll'))return; openDetails(c); };
+    card.innerHTML=
+        '<div class="card-top"><span class="branch-tag">'+hl(c.branch)+'</span><span class="'+(full?'badge-full':'badge-open')+'">'+(full?'FULL':'OPEN')+'</span></div>'+
+        '<div class="ctitle">'+hl(c.title)+'</div>'+
+        '<div class="cfaculty">👤 '+hl(c.faculty)+'</div>'+
+        '<div class="card-foot">'+
+            '<div><div class="slabel">Seats Available</div>'+
+            '<div class="sval'+(full?' red':'')+'">'+( full?'Full':c.seats+' / '+c.max)+'</div>'+
+            '<div class="bar"><div class="bar-in" style="width:'+(full?100:pct)+'%;background:'+(full?'#ef4444':color)+'"></div></div></div>'+
+            '<button class="btn-enroll" '+(full?'disabled':'')+' onclick="openEnrollForm('+c.id+',event)">'+(full?'🔒 Full':'✍ Enroll')+'</button>'+
+        '</div>';
+    return card;
+}
+
+function openDetails(c){
+    var full=c.seats<=0, pct=Math.round(c.seats/c.max*100);
+    var ov=document.createElement('div'); ov.className='overlay';
+    ov.innerHTML='<div class="popup">'+
+        '<div class="popup-header"><div class="popup-icon">📖</div><h2>'+c.title+'</h2></div>'+
+        '<div class="drow"><span class="dk">Branch</span><span class="dv">'+c.branch+'</span></div>'+
+        '<div class="drow"><span class="dk">Faculty</span><span class="dv">'+c.faculty+'</span></div>'+
+        '<div class="drow"><span class="dk">Seats Left</span><span class="dv '+(full?'red':'green')+'">'+(full?'Full':c.seats+' seats')+'</span></div>'+
+        '<div class="drow"><span class="dk">Total Capacity</span><span class="dv">'+c.max+'</span></div>'+
+        '<div class="drow"><span class="dk">Filled</span><span class="dv">'+(100-pct)+'%</span></div>'+
+        '<div class="bar" style="margin:14px 0 18px;height:7px;"><div class="bar-in" style="width:'+(full?100:pct)+'%;background:'+(full?'#ef4444':'#10b981')+'"></div></div>'+
+        (!full?'<button class="btn-orange" onclick="this.closest(\'.overlay\').remove();openEnrollForm('+c.id+',{stopPropagation:function(){}})">✍ Enroll Now</button>':'')+
+        '<button class="btn-light" onclick="this.closest(\'.overlay\').remove()">Close</button>'+
+        '</div>';
+    document.body.appendChild(ov);
+    ov.onclick=function(e){if(e.target===ov)ov.remove();};
+}
+
+function openEnrollForm(id,e){
+    if(e&&e.stopPropagation)e.stopPropagation();
+    var c=courses.filter(function(x){return x.id===id;})[0];
+    if(!c||c.seats<=0)return;
+    var ov=document.createElement('div'); ov.className='overlay';
+    ov.innerHTML='<div class="popup">'+
+        '<div class="popup-header"><div class="popup-icon">✍</div><h2>Enroll in Course</h2></div>'+
+        '<p style="font-size:13px;color:#64748b;margin-bottom:16px;font-weight:600;background:#f8fafc;padding:10px;border-radius:8px;border-left:3px solid #f97316;">📚 '+c.title+'<br>🏫 '+c.branch+'</p>'+
+        '<div class="field"><label>Full Name *</label><input id="eName" placeholder="Enter your full name"></div>'+
+        '<div class="field"><label>Email Address *</label><input id="eEmail" type="email" placeholder="Enter your email"></div>'+
+        '<div class="twocol">'+
+            '<div class="field"><label>Phone *</label><input id="ePhone" type="tel" placeholder="Phone number"></div>'+
+            '<div class="field"><label>Roll No. (Optional)</label><input id="eRoll" placeholder="Roll number"></div>'+
+        '</div>'+
+        '<button class="btn-navy" onclick="submitEnroll('+id+')">✓ Confirm Enrollment</button>'+
+        '<button class="btn-light" onclick="this.closest(\'.overlay\').remove()">Cancel</button>'+
+        '</div>';
+    document.body.appendChild(ov);
+    ov.onclick=function(e){if(e.target===ov)ov.remove();};
+}
+
+function submitEnroll(id){
+    var name=document.getElementById('eName').value.trim();
+    var email=document.getElementById('eEmail').value.trim();
+    var phone=document.getElementById('ePhone').value.trim();
+    if(!name||!email||!phone){toast('Please fill all required fields!','error');return;}
+    var c=courses.filter(function(x){return x.id===id;})[0];
+    if(!c||c.seats<=0)return;
+    c.seats--; save();
+    document.querySelector('.overlay').remove();
+    var ov=document.createElement('div'); ov.className='overlay';
+    ov.innerHTML='<div class="popup" style="text-align:center;">'+
+        '<div class="success-icon">✅</div>'+
+        '<h2 style="font-family:Poppins,sans-serif;font-size:19px;color:#1a237e;margin-bottom:8px;">Enrollment Successful!</h2>'+
+        '<p style="color:#64748b;font-size:14px;margin-bottom:18px;">Welcome, <strong>'+name+'</strong>!<br>You are enrolled in <strong>'+c.title+'</strong>.</p>'+
+        '<div class="drow"><span class="dk">Branch</span><span class="dv">'+c.branch+'</span></div>'+
+        '<div class="drow"><span class="dk">Faculty</span><span class="dv">'+c.faculty+'</span></div>'+
+        '<div class="drow"><span class="dk">Seats Remaining</span><span class="dv green">'+c.seats+'</span></div>'+
+        '<button class="btn-orange" style="margin-top:16px;" onclick="this.closest(\'.overlay\').remove()">🎉 Done</button>'+
+        '</div>';
+    document.body.appendChild(ov);
+    ov.onclick=function(e){if(e.target===ov)ov.remove();};
+    applyFilters();
+    toast('🎉 Enrolled in "'+c.title+'"!','success');
+}
+
+function resetAll(){
+    document.getElementById('search').value='';
+    document.getElementById('branch').value='all';
+    document.getElementById('sort').value='';
+    document.getElementById('avail').checked=false;
+    keyword=''; applyFilters();
+}
+
+function toast(msg,type){
+    var old=document.querySelector('.toast'); if(old)old.remove();
+    var t=document.createElement('div'); t.className='toast '+type; t.textContent=msg;
+    document.body.appendChild(t); setTimeout(function(){t.remove();},3000);
+}
+
+window.onload=init;
+</script>
+</body>
+</html>

@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Variables & Data Types</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .box {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        p {
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background: #2980b9;
+        }
+
+        .output {
+            background: #eafaf1;
+            border-left: 4px solid #2ecc71;
+            padding: 10px;
+            margin-top: 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 14px;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>📦 JavaScript Variables & Data Types</h1>
+
+    <!-- 1. What is a Variable -->
+    <div class="box">
+        <h2>1. What is a Variable?</h2>
+        <p>A variable is like a box that stores a value. You give it a name and put data inside.</p>
+        <pre>
+let name = "Ravi";
+let age = 20;
+console.log(name);
+console.log(age);
+    </pre>
+        <button onclick="show('o1')">▶ Run</button>
+        <div class="output" id="o1"></div>
+    </div>
+
+    <!-- 2. var, let, const -->
+    <div class="box">
+        <h2>2. var, let, and const</h2>
+        <p><b>var</b> - old way, can be re-declared<br>
+            <b>let</b> - modern, value can change<br>
+            <b>const</b> - value cannot change
+        </p>
+        <pre>
+var city = "Delhi";
+let score = 50;
+const country = "India";
+
+score = 75;  // ✅ allowed
+// country = "USA";  ❌ not allowed
+
+console.log(city);
+console.log(score);
+console.log(country);
+    </pre>
+        <button onclick="show('o2')">▶ Run</button>
+        <div class="output" id="o2"></div>
+    </div>
+
+    <!-- 3. Naming Rules -->
+    <div class="box">
+        <h2>3. Naming Rules</h2>
+        <p>Rules for naming variables in JavaScript:</p>
+        <pre>
+// ✅ Valid names
+let firstName = "Sita";
+let _age = 22;
+let $price = 100;
+
+// ❌ Invalid names
+// let 1name = "bad";   → starts with number
+// let my-var = 5;      → hyphen not allowed
+// let let = 10;        → reserved keyword
+
+console.log(firstName);
+console.log(_age);
+console.log($price);
+    </pre>
+        <button onclick="show('o3')">▶ Run</button>
+        <div class="output" id="o3"></div>
+    </div>
+
+    <!-- 4. Scope -->
+    <div class="box">
+        <h2>4. Scope</h2>
+        <p>Scope means where a variable can be used. Variables inside a function are not available outside.</p>
+        <pre>
+let globalVar = "I am global";
+
+function test() {
+  let localVar = "I am local";
+  console.log(globalVar);  // ✅ works
+  console.log(localVar);   // ✅ works
+}
+
+test();
+// console.log(localVar); ❌ error outside
+    </pre>
+        <button onclick="show('o4')">▶ Run</button>
+        <div class="output" id="o4"></div>
+    </div>
+
+    <!-- 5. Reassignment -->
+    <div class="box">
+        <h2>5. Reassignment</h2>
+        <p>You can change the value of a <b>let</b> variable anytime.</p>
+        <pre>
+let marks = 60;
+console.log("Before: " + marks);
+
+marks = 85;
+console.log("After: " + marks);
+    </pre>
+        <button onclick="show('o5')">▶ Run</button>
+        <div class="output" id="o5"></div>
+    </div>
+
+    <!-- 6. Data Types -->
+    <div class="box">
+        <h2>6. Data Types</h2>
+        <p>Data type tells what kind of value is stored in a variable.</p>
+        <pre>
+let num = 10;          // Number
+let name = "Amit";     // String
+let isPass = true;     // Boolean
+let x = null;          // Null
+let y;                 // Undefined
+
+console.log(typeof num);
+console.log(typeof name);
+console.log(typeof isPass);
+console.log(typeof x);
+console.log(typeof y);
+    </pre>
+        <button onclick="show('o6')">▶ Run</button>
+        <div class="output" id="o6"></div>
+    </div>
+
+    <!-- 7. Primitive Types -->
+    <div class="box">
+        <h2>7. Primitive Data Types</h2>
+        <p>These are the basic/simple data types in JavaScript.</p>
+        <pre>
+let num = 42;           // Number
+let name = "Priya";     // String
+let isTrue = true;      // Boolean
+let nothing = null;     // Null
+let notDefined;         // Undefined
+
+console.log("Number: " + num);
+console.log("String: " + name);
+console.log("Boolean: " + isTrue);
+console.log("Null: " + nothing);
+console.log("Undefined: " + notDefined);
+    </pre>
+        <button onclick="show('o7')">▶ Run</button>
+        <div class="output" id="o7"></div>
+    </div>
+
+    <!-- 8. Non-Primitive Types -->
+    <div class="box">
+        <h2>8. Non-Primitive Data Types</h2>
+        <p>These store multiple values. Examples: Array and Object.</p>
+        <pre>
+// Array - list of values
+let fruits = ["Apple", "Mango", "Banana"];
+console.log(fruits[0]);
+console.log(fruits[1]);
+
+// Object - key and value pairs
+let student = { name: "Raj", age: 18 };
+console.log(student.name);
+console.log(student.age);
+    </pre>
+        <button onclick="show('o8')">▶ Run</button>
+        <div class="output" id="o8"></div>
+    </div>
+
+    <!-- 9. Type Checking -->
+    <div class="box">
+        <h2>9. Type Checking</h2>
+        <p>Use <b>typeof</b> to check what type a variable is.</p>
+        <pre>
+let a = 100;
+let b = "Hello";
+let c = true;
+let d = [1, 2, 3];
+let e = { name: "Tom" };
+
+console.log(typeof a);  // number
+console.log(typeof b);  // string
+console.log(typeof c);  // boolean
+console.log(typeof d);  // object
+console.log(typeof e);  // object
+    </pre>
+        <button onclick="show('o9')">▶ Run</button>
+        <div class="output" id="o9"></div>
+    </div>
+
+    <!-- 10. Type Conversion -->
+    <div class="box">
+        <h2>10. Type Conversion</h2>
+        <p>You can convert one type to another using built-in functions.</p>
+        <pre>
+// String to Number
+let str = "50";
+let num = Number(str);
+console.log(num + 10);       // 60
+
+// Number to String
+let n = 100;
+let s = String(n);
+console.log(s + " rupees");  // 100 rupees
+
+// Number to Boolean
+console.log(Boolean(1));     // true
+console.log(Boolean(0));     // false
+    </pre>
+        <button onclick="show('o10')">▶ Run</button>
+        <div class="output" id="o10"></div>
+    </div>
+
+    <script>
+        function show(id) {
+            const el = document.getElementById(id);
+            el.style.display = "block";
+
+            if (id === 'o1') {
+                let name = "Ravi";
+                let age = 20;
+                el.innerText = "name = " + name + "\nage = " + age;
+            }
+            else if (id === 'o2') {
+                var city = "Delhi";
+                let score = 50;
+                const country = "India";
+                score = 75;
+                el.innerText = "city = " + city + "\nscore = " + score + "\ncountry = " + country;
+            }
+            else if (id === 'o3') {
+                let firstName = "Sita";
+                let _age = 22;
+                let $price = 100;
+                el.innerText = "firstName = " + firstName + "\n_age = " + _age + "\n$price = " + $price;
+            }
+            else if (id === 'o4') {
+                let globalVar = "I am global";
+                let localVar = "I am local";
+                el.innerText = globalVar + "\n" + localVar;
+            }
+            else if (id === 'o5') {
+                let marks = 60;
+                let out = "Before: " + marks;
+                marks = 85;
+                out += "\nAfter: " + marks;
+                el.innerText = out;
+            }
+            else if (id === 'o6') {
+                let num = 10;
+                let name = "Amit";
+                let isPass = true;
+                let x = null;
+                let y;
+                el.innerText =
+                    "typeof num = " + typeof num +
+                    "\ntypeof name = " + typeof name +
+                    "\ntypeof isPass = " + typeof isPass +
+                    "\ntypeof null = " + typeof x +
+                    "\ntypeof undefined = " + typeof y;
+            }
+            else if (id === 'o7') {
+                let num = 42;
+                let name = "Priya";
+                let isTrue = true;
+                let nothing = null;
+                let notDefined;
+                el.innerText =
+                    "Number: " + num +
+                    "\nString: " + name +
+                    "\nBoolean: " + isTrue +
+                    "\nNull: " + nothing +
+                    "\nUndefined: " + notDefined;
+            }
+            else if (id === 'o8') {
+                let fruits = ["Apple", "Mango", "Banana"];
+                let student = { name: "Raj", age: 18 };
+                el.innerText =
+                    "fruits[0] = " + fruits[0] +
+                    "\nfruits[1] = " + fruits[1] +
+                    "\nstudent.name = " + student.name +
+                    "\nstudent.age = " + student.age;
+            }
+            else if (id === 'o9') {
+                let a = 100, b = "Hello", c = true, d = [1, 2, 3], e = { name: "Tom" };
+                el.innerText =
+                    "typeof 100 = " + typeof a +
+                    "\ntypeof 'Hello' = " + typeof b +
+                    "\ntypeof true = " + typeof c +
+                    "\ntypeof [] = " + typeof d +
+                    "\ntypeof {} = " + typeof e;
+            }
+            else if (id === 'o10') {
+                let str = "50";
+                let num = Number(str);
+                let n = 100;
+                let s = String(n);
+                el.innerText =
+                    "Number('50') + 10 = " + (num + 10) +
+                    "\nString(100) + ' rupees' = " + (s + " rupees") +
+                    "\nBoolean(1) = " + Boolean(1) +
+                    "\nBoolean(0) = " + Boolean(0);
+            }
+        }
+    </script>
+
+</body>
+
+</html>
