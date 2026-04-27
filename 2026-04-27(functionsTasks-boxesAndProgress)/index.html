@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boxes + Progress</title>
+
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f3f4f6;
+            font-family: Arial;
+            flex-direction: column;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            gap: 40px;
+        }
+
+        .box-container {
+            text-align: center;
+        }
+
+        .box {
+            width: 160px;
+            height: 160px;
+            border: 1px solid #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+            background-color: #f1f5f9;
+        }
+
+        button {
+            padding: 5px 10px;
+            border: none;
+            margin: 3px;
+            color: white;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .red {
+            background: #ef4444;
+        }
+
+        .blue {
+            background: #3b82f6;
+        }
+
+        .green {
+            background: #22c55e;
+        }
+
+        .purple {
+            background: purple;
+        }
+
+        .yellow {
+            background: #eab308;
+        }
+
+        .pink {
+            background: pink;
+        }
+
+        .reset-btn {
+            margin-top: 20px;
+            background: black;
+            padding: 8px 20px;
+        }
+
+        /* 🔹 PROGRESS BAR */
+        .progress-container {
+            width: 300px;
+            height: 20px;
+            background: #ddd;
+            margin-top: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 25%;
+            background: #4f46e5;
+            text-align: center;
+            color: white;
+            line-height: 20px;
+        }
+
+        .progress-buttons button {
+            background: #6366f1;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 🔹 BOXES -->
+    <div class="container">
+        <div class="box-container">
+            <div id="box1" class="box">Default</div>
+            <button class="red" onclick="changeColor('box1','#ef4444')">Red</button>
+            <button class="blue" onclick="changeColor('box1','#3b82f6')">Blue</button>
+            <button class="purple" onclick="changeColor('box1','#8b5cf6')">Purple</button>
+        </div>
+
+        <div class="box-container">
+            <div id="box2" class="box">Default</div>
+            <button class="green" onclick="changeColor('box2','#22c55e')">Green</button>
+            <button class="yellow" onclick="changeColor('box2','#eab308')">Yellow</button>
+            <button class="pink" onclick="changeColor('box2','#ec4899')">Pink</button>
+        </div>
+    </div>
+
+    <button class="reset-btn" onclick="resetAll()">Reset All</button>
+
+    <!-- 🔹 PROGRESS BAR -->
+    <div class="progress-container">
+        <div id="progressBar" class="progress-bar">25%</div>
+    </div>
+
+    <div class="progress-buttons">
+        <button onclick="updateProgress(10)">10%</button>
+        <button onclick="updateProgress(25)">25%</button>
+        <button onclick="updateProgress(50)">50%</button>
+        <button onclick="updateProgress(75)">75%</button>
+        <button onclick="updateProgress(100)">100%</button>
+    </div>
+
+    <script>
+        // 🔹 BOX COLOR CHANGE
+        function changeColor(boxId, color = '#f1f5f9') {
+            const box = document.getElementById(boxId);
+
+            box.style.backgroundColor = color;
+
+            if (color === '#f1f5f9') {
+                box.innerText = "Default";
+                box.style.color = "#000";
+            } else {
+                box.innerText = "Changed!";
+                box.style.color = "#fff";
+            }
+        }
+
+        // 🔹 RESET BOTH BOXES
+        function resetAll() {
+            changeColor("box1");
+            changeColor("box2");
+        }
+
+        // 🔹 PROGRESS UPDATE
+        function updateProgress(percent) {
+            const bar = document.getElementById("progressBar");
+
+            bar.style.width = percent + "%";
+            bar.innerText = percent + "%";
+        }
+    </script>
+
+</body>
+
+</html>

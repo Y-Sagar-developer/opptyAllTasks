@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>enter details</h1>
+    <input type="text" id="ip1" placeholder="enter name">
+    <input type="number" id="ip2" placeholder="enter age">
+    <input type="text" id="ip3" placeholder="enter city">
+
+    <button onclick="runFun()">submit</button>
+    <div id="display"></div>
+
+
+    <script>
+        function greet(name,age,city){
+            if(!name || !age || !city){
+                return "please fill all fields"
+            }
+            return "hello "+ name+
+            ", you are "+ age +
+            " years old and from "+ city + ".";
+        }
+        function runFun (){
+            let nameVal=document.getElementById("ip1").value
+            let ageVal=document.getElementById("ip2").value
+            let cityVal=document.getElementById("ip3").value
+
+            const result =greet(nameVal,ageVal,cityVal)
+            document.getElementById("display").innerHTML=result
+        }
+    </script>
+</body>
+</html>

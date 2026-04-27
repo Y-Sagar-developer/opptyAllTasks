@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- HTML UI -->
+<input type="number" id="ex5-price" />
+<select id="ex5-discount">
+    <option value="10">10%</option>
+    <option value="50">50%</option>
+</select>
+<button onclick="runDiscount()">Apply</button>
+<div id="ex5-output"></div>
+
+<!-- JavaScript -->
+<script>
+function calcFinalPrice(price, discount) {
+    let saving = price * (discount / 100);
+    return price - saving;
+}
+
+function runDiscount() {
+    const price = Number(document.getElementById('ex5-price').value);
+    const discount = Number(document.getElementById('ex5-discount').value);
+    
+    const finalPrice = calcFinalPrice(price, discount);
+    document.getElementById('ex5-output').innerText = `Final Price: $${finalPrice.toFixed(2)}`;
+}
+</script>
+</body>
+</html>

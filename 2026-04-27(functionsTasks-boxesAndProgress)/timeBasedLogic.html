@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <input type="text" id="ip1">
+    <button onclick="runFun()">get greetings</button>
+    <div id="display"></div>
+
+    <script>
+        function getGreeting(name, hour) {
+            let timeOfDay = "evening";
+
+            if (hour < 12) {
+                timeOfDay = "morning";
+            } else if (hour < 17) {
+                timeOfDay = "afternoon";
+            }
+
+            return "Good " + timeOfDay + ", " + name + "!";
+        }
+
+
+        function getGreeting(name, hour) {
+            let timeOfDay = hour < 12
+                ? "morning"
+                : hour < 17
+                    ? "afternoon"
+                    : "evening";
+
+            return `Good ${timeOfDay}, ${name}!`;
+        }
+
+
+        function getGreeting(name, hour) {
+            let timeOfDay;
+
+            switch (true) {
+                case (hour < 12):
+                    timeOfDay = "morning";
+                    break;
+                case (hour < 17):
+                    timeOfDay = "afternoon";
+                    break;
+                default:
+                    timeOfDay = "evening";
+            }
+
+            return `Good ${timeOfDay}, ${name}!`;
+        }
+
+
+        function getGreeting(name, hour) {
+            const times = ["morning", "afternoon", "evening"];
+
+            let index = hour < 12 ? 0 : hour < 17 ? 1 : 2;
+
+            return `Good ${times[index]}, ${name}!`;
+        }
+
+
+
+        function getGreeting(name = "Guest", hour = new Date().getHours()) {
+            let timeOfDay = hour < 12 ? "morning" : hour < 17 ? "afternoon" : "evening";
+            return `Good ${timeOfDay}, ${name}!`;
+        }
+    </script>
+
+</body>
+
+</html>

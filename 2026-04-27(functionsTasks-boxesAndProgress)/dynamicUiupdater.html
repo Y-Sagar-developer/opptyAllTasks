@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+    <div class="w-full bg-slate-200 h-6">
+        <div id="ex9-bar" style="width: 25%;">25%</div>
+    </div>
+    <button onclick="runProgress(10)">10%</button>
+    <button onclick="runProgress(50)">50%</button>
+    <button onclick="runProgress(100)">100%</button>
+
+<script>
+function updateProgress(percent) {
+    const bar = document.getElementById('ex9-bar');
+    
+    // Changing the CSS width & text dynamically
+    bar.style.width = percent + '%';
+    bar.innerText = percent + '%';
+}
+
+function runProgress(percent) {
+    updateProgress(percent);
+}</script>
+
+</body>
+
+</html>
