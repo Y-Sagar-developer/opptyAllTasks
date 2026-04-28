@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Task Tracker</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial;
+    background:#f1f5f9;
+    padding:30px;
+}
+
+.container{
+    max-width:1250px;
+    margin:auto;
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.15);
+}
+
+h1{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.top{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+}
+
+input{
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:8px;
+}
+
+button{
+    padding:10px 15px;
+    border:none;
+    border-radius:8px;
+    color:white;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.add{background:#2563eb;}
+.date{background:#f59e0b;}
+.save{background:#16a34a;}
+.reset{background:#dc2626;}
+.remove{background:#dc2626;padding:6px 10px;}
+
+button:disabled{
+    background:gray;
+    cursor:not-allowed;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,td{
+    border:1px solid #ddd;
+    padding:10px;
+    text-align:center;
+}
+
+th{
+    background:#dbeafe;
+}
+
+.done{
+    color:green;
+    font-size:22px;
+}
+
+.notdone{
+    color:red;
+    font-size:22px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Task Tracker</h1>
+
+<div class="top">
+
+<input type="text" id="taskInput" placeholder="Enter Task">
+
+<button class="add" onclick="addTask()">Add Task</button>
+
+<button class="date" id="dateBtn" onclick="selectDate()" disabled>Select Date</button>
+
+<button class="save" id="saveBtn" onclick="saveData()" disabled>Save</button>
+
+<button class="reset" onclick="resetAll()">Reset</button>
+
+</div>
+
+<table>
+
+<thead>
+<tr>
+<th>SNO</th>
+<th>Task Name</th>
+<th>Completed</th>
+<th>Not Completed</th>
+<th>Status</th>
+<th>Date</th>
+<th>Remove</th>
+</tr>
+</thead>
+
+<tbody id="tbody"></tbody>
+
+</table>
+
+</div>
+
+<script>
+
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [
+
+{id:1, taskName:"HTML Practice", status:"", date:""},
+{id:2, taskName:"CSS Practice", status:"", date:""},
+{id:3, taskName:"JavaScript Practice", status:"", date:""}
+
+];
+
+let selectedIndexes = [];
+let selectedDate = "";
+
+function displayTasks(){
+
+let data = "";
+
+tasks.forEach(function(item,index){
+
+data += `
+<tr>
+
+<td>${item.id}</td>
+
+<td>${item.taskName}</td>
+
+<td>
+<input type="checkbox"
+${item.status==="done" ? "checked" : ""}
+onclick="markDone(${index})">
+</td>
+
+<td>
+<input type="checkbox"
+${item.status==="notdone" ? "checked" : ""}
+onclick="markNotDone(${index})">
+</td>
+
+<td>
+${
+item.status==="done"
+? '<span class="done">✔</span>'
+: item.status==="notdone"
+? '<span class="notdone">✖</span>'
+: ''
+}
+</td>
+
+<td>${item.date}</td>
+
+<td>
+<button class="remove" onclick="removeTask(${index})">X</button>
+</td>
+
+</tr>
+`;
+
+});
+
+document.getElementById("tbody").innerHTML = data;
+
+}
+
+displayTasks();
+
+function enableButtons(){
+
+document.getElementById("dateBtn").disabled = false;
+document.getElementById("saveBtn").disabled = true;
+
+}
+
+function markDone(index){
+
+tasks[index].status = "done";
+
+if(!selectedIndexes.includes(index)){
+selectedIndexes.push(index);
+}
+
+displayTasks();
+enableButtons();
+
+}
+
+function markNotDone(index){
+
+tasks[index].status = "notdone";
+
+if(!selectedIndexes.includes(index)){
+selectedIndexes.push(index);
+}
+
+displayTasks();
+enableButtons();
+
+}
+
+function selectDate(){
+
+let today = new Date();
+
+selectedDate =
+today.getDate() + "-" +
+(today.getMonth()+1) + "-" +
+today.getFullYear();
+
+document.getElementById("saveBtn").disabled = false;
+
+}
+
+function saveData(){
+
+let savedTasks = JSON.parse(localStorage.getItem("savedTasks")) || [];
+
+selectedIndexes.forEach(function(index){
+
+tasks[index].date = selectedDate;
+
+savedTasks.push({...tasks[index]});
+
+});
+
+localStorage.setItem("savedTasks", JSON.stringify(savedTasks));
+
+displayTasks();
+
+selectedIndexes = [];
+
+document.getElementById("dateBtn").disabled = true;
+document.getElementById("saveBtn").disabled = true;
+
+alert("Only Selected Tasks Saved");
+
+}
+
+function addTask(){
+
+let input = document.getElementById("taskInput");
+
+if(input.value==="") return;
+
+tasks.push({
+id:tasks.length+1,
+taskName:input.value,
+status:"",
+date:""
+});
+
+input.value="";
+
+displayTasks();
+
+}
+
+function removeTask(index){
+
+tasks.splice(index,1);
+
+tasks.forEach(function(item,i){
+item.id = i + 1;
+});
+
+displayTasks();
+
+}
+
+function resetAll(){
+
+localStorage.removeItem("tasks");
+localStorage.removeItem("savedTasks");
+
+location.reload();
+
+}
+
+</script>
+
+</body>
+</html>
