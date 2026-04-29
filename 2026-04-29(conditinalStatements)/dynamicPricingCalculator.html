@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial;
+            background: #f1f5f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 700px;
+            background: white;
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        h1 {
+            font-size: 34px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: gray;
+            margin-bottom: 25px;
+            font-size: 18px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            font-size: 22px;
+            border: 2px solid #60a5fa;
+            border-radius: 10px;
+            outline: none;
+            margin-bottom: 15px;
+        }
+
+        .note {
+            color: #6b7280;
+            font-size: 15px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .result {
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 30px;
+            font-weight: bold;
+            color: white;
+            transition: 0.4s;
+            background: #2563eb;
+        }
+
+        .oldprice {
+            display: block;
+            font-size: 22px;
+            text-decoration: line-through;
+            opacity: .8;
+            margin-bottom: 10px;
+        }
+
+        .discount {
+            font-size: 20px;
+            margin-top: 10px;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <div class="container">
+        <h1>Dynamic Pricing Calculator</h1>
+        <p>Automatic discount based on subtotal amount.</p>
+        <label>SUBTOTAL ($)</label>
+        <input type="number" id="priceInput" placeholder="Enter amount">
+
+        <div class="note">
+            Above $50 → 10% OFF <br>
+            Above $100 → 15% OFF <br>
+            Above $200 → 20% OFF
+        </div>
+        <div class="result" id="resultBox">
+            Total: $0.00
+        </div>
+    </div>
+
+    <script>
+
+        const input = document.getElementById("priceInput");
+        const resultBox = document.getElementById("resultBox");
+
+        input.addEventListener("input", function () {
+
+            let total = parseFloat(input.value) || 0;
+
+            let discount =
+                (total > 200) ? 20 :
+                    (total > 100) ? 15 :
+                        (total > 50) ? 10 : 0;
+
+            let finalPrice = total - (total * discount / 100);
+
+            if (discount > 0) {
+
+                resultBox.innerHTML = `
+<span class="oldprice">$${total.toFixed(2)}</span>
+Total: $${finalPrice.toFixed(2)}
+<span class="discount">${discount}% OFF 🔥</span>
+`;
+
+                resultBox.style.background = "#d97706";
+
+            }
+            else {
+
+                resultBox.innerHTML = `
+Total: $${finalPrice.toFixed(2)}
+`;
+
+                resultBox.style.background = "#2563eb";
+
+            }
+
+        });
+
+    </script>
+</body>
+
+</html>

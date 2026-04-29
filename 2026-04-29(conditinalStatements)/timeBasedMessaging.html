@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial;
+            background: #e2e8f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 900px;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: gray;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            margin: 15px 0 25px;
+        }
+
+        .scene {
+            height: 260px;
+            border-radius: 18px;
+            position: relative;
+            overflow: hidden;
+            transition: 1s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .sun,
+        .moon {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            top: 30px;
+            transition: 1.5s ease-in-out;
+        }
+
+        .sun {
+            background: #facc15;
+            box-shadow: 0 0 40px #facc15;
+            left: 40px;
+        }
+
+        .moon {
+            background: #8eaece;
+            box-shadow: 0 0 30px white;
+            left: -120px;
+        }
+
+        .cloud {
+            position: absolute;
+            width: 120px;
+            height: 50px;
+            background: white;
+            border-radius: 50px;
+            top: 80px;
+            left: -150px;
+            opacity: .8;
+            animation: cloudMove 18s linear infinite;
+
+        }
+
+        @keyframes cloudMove {
+            0% {
+                left: -150px;
+            }
+
+            100% {
+                left: 950px;
+            }
+        }
+
+        .result {
+            position: relative;
+            z-index: 5;
+            padding: 18px 30px;
+            border-radius: 12px;
+            font-size: 28px;
+            font-weight: bold;
+            backdrop-filter: blur(5px);
+            background: rgba(255, 255, 255, .25);
+            color: white;
+        }
+
+        .morning-bg {
+            background: linear-gradient(to top, #60a5fa, #dbeafe);
+        }
+
+        .afternoon-bg {
+            background: linear-gradient(to top, #f59e0b, #fde68a);
+        }
+
+        .night-bg {
+            background: linear-gradient(to top, #0f172a, #1e3a8a);
+        }
+
+        .star {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            transition: 1s;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Time-Based Messaging</h1>
+        <p>Move slider to see real-time Morning / Afternoon / Night animation.</p>
+        <label>
+            ADJUST TIME (HOUR:
+            <span id="hourVal">6</span>)
+        </label>
+        <input type="range" id="timeSlider" min="0" max="23" value="6">
+        <div class="scene morning-bg" id="scene">
+
+            <div class="sun" id="sun"></div>
+            <div class="moon" id="moon"></div>
+            <div class="cloud"></div>
+
+            <div class="star" style="top:30px;left:120px"></div>
+            <div class="star" style="top:60px;left:250px"></div>
+            <div class="star" style="top:40px;left:500px"></div>
+            <div class="star" style="top:90px;left:700px"></div>
+            <div class="result" id="resultBox">Good Morning 🌅</div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+        const slider = document.getElementById("timeSlider");
+        const hourVal = document.getElementById("hourVal");
+        const scene = document.getElementById("scene");
+        const result = document.getElementById("resultBox");
+        const sun = document.getElementById("sun");
+        const moon = document.getElementById("moon");
+        const stars = document.querySelectorAll(".star");
+
+
+        slider.addEventListener("input", function () {
+            let hour = parseInt(slider.value);
+            hourVal.innerHTML = hour
+
+            if (hour >= 5 && hour < 12) {
+                scene.className = "scene morning-bg"
+                result.innerHTML = "Good Morning 🌅"
+
+                sun.style.left = "40px"
+                moon.style.left = "-120px";
+
+                stars.forEach(function (star) {
+                    star.style.opacity = "0";
+                });
+
+
+            }
+            else if (hour >= 12 && hour < 18) {
+                scene.className = "scene afternoon-bg";
+                result.innerText = "Good Afternoon ☀️";
+                sun.style.left = "380px";
+                moon.style.left = "-120px";
+
+                stars.forEach(function (star) {
+                    star.style.opacity = "0";
+                });
+
+            }
+            else {
+                scene.className = "scene night-bg";
+                result.innerText = "Good Night 🌙";
+                sun.style.left = "950px";
+                moon.style.left = "50px";
+                stars.forEach(function (star) {
+                    star.style.opacity = "1";
+                });
+            }
+        })
+
+
+
+    </script>
+
+</body>
+
+</html>
