@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Professional Live Location Tracker</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:Arial;
+background:linear-gradient(135deg,#dbeafe,#e0f2fe,#f0f9ff);
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+padding:20px;
+}
+
+.container{
+width:800px;
+background:white;
+padding:35px;
+border-radius:22px;
+box-shadow:0 20px 40px rgba(0,0,0,0.15);
+text-align:center;
+}
+
+h1{
+font-size:36px;
+margin-bottom:10px;
+color:#0f172a;
+}
+
+p{
+color:#64748b;
+margin-bottom:25px;
+font-size:18px;
+}
+
+.row{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+margin-bottom:20px;
+}
+
+input{
+width:100%;
+padding:14px;
+font-size:18px;
+border:2px solid #cbd5e1;
+border-radius:12px;
+outline:none;
+transition:.3s;
+}
+
+input:focus{
+border-color:#2563eb;
+}
+
+button{
+padding:14px 18px;
+border:none;
+border-radius:12px;
+color:white;
+font-weight:bold;
+cursor:pointer;
+margin:8px;
+font-size:16px;
+transition:.3s;
+}
+
+button:hover{
+transform:translateY(-2px);
+}
+
+.detect{
+background:#2563eb;
+}
+
+.manual{
+background:#7c3aed;
+}
+
+.map{
+background:#16a34a;
+}
+
+button:disabled{
+background:gray;
+cursor:not-allowed;
+transform:none;
+}
+
+.box{
+margin-top:20px;
+padding:22px;
+background:#eff6ff;
+border-radius:14px;
+font-size:22px;
+line-height:1.8;
+color:#0f172a;
+font-weight:bold;
+}
+
+iframe{
+margin-top:25px;
+width:100%;
+height:380px;
+border:none;
+border-radius:18px;
+display:none;
+box-shadow:0 10px 25px rgba(0,0,0,0.12);
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Live Location Tracker</h1>
+
+<p>Detect your real-time location or enter latitude & longitude manually.</p>
+
+<div class="row">
+<input type="text" id="latInput" placeholder="Enter Latitude">
+<input type="text" id="longInput" placeholder="Enter Longitude">
+</div>
+
+<button class="detect" onclick="getLocation()">Detect Live Location</button>
+
+<button class="manual" onclick="manualLocation()">Use Manual Location</button>
+
+<button class="map" id="mapBtn" onclick="showMap()" disabled>View On Map</button>
+
+<div class="box" id="result">
+Waiting for location...
+</div>
+
+<iframe id="mapFrame"></iframe>
+
+</div>
+
+<script>
+
+let latitude = "";
+let longitude = "";
+
+function getLocation(){
+
+if(navigator.geolocation){
+
+document.getElementById("result").innerText = "Detecting live location...";
+
+navigator.geolocation.getCurrentPosition(success,error);
+
+}
+else{
+
+document.getElementById("result").innerText =
+"Geolocation not supported.";
+
+}
+
+}
+
+function success(position){
+
+latitude = position.coords.latitude;
+longitude = position.coords.longitude;
+
+showData("Live Location Detected");
+
+}
+
+function error(){
+
+document.getElementById("result").innerText =
+"Permission denied or location unavailable.";
+
+}
+
+function manualLocation(){
+
+latitude = document.getElementById("latInput").value;
+longitude = document.getElementById("longInput").value;
+
+if(latitude==="" || longitude===""){
+
+document.getElementById("result").innerText =
+"Please enter latitude and longitude.";
+
+return;
+
+}
+
+showData("Manual Location Added");
+
+}
+
+function showData(type){
+
+document.getElementById("result").innerHTML = `
+${type}<br><br>
+Latitude : ${latitude}<br>
+Longitude : ${longitude}
+`;
+
+document.getElementById("mapBtn").disabled = false;
+
+}
+
+function showMap(){
+
+let map = document.getElementById("mapFrame");
+
+map.style.display = "block";
+
+map.src =
+`https://www.google.com/maps?q=${latitude},${longitude}&output=embed`;
+
+}
+
+</script>
+
+</body>
+</html>

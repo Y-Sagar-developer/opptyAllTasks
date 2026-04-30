@@ -79,12 +79,12 @@
         }
 
         .moon {
-            background: #8eaece;
+            background: #e6eaef;
             box-shadow: 0 0 30px white;
             left: -120px;
         }
 
-        .cloud {
+        /* .cloud {
             position: absolute;
             width: 120px;
             height: 50px;
@@ -95,7 +95,45 @@
             opacity: .8;
             animation: cloudMove 18s linear infinite;
 
-        }
+        } */
+
+
+
+        /* NEW REAL CLOUD CSS ADD THIS */
+.cloud{
+    position:absolute;
+    width:130px;
+    height:45px;
+    background:white;
+    border-radius:50px;
+    top:90px;
+    left:-180px;
+    opacity:.9;
+    animation:cloudMove 18s linear infinite;
+    /* box-shadow:0 8px 15px rgba(255,255,255,.5); */
+}
+
+.cloud::before{
+    content:"";
+    position:absolute;
+    width:55px;
+    height:55px;
+    background:white;
+    border-radius:50%;
+    top:-25px;
+    left:18px;
+}
+
+.cloud::after{
+    content:"";
+    position:absolute;
+    width:70px;
+    height:70px;
+    background:white;
+    border-radius:50%;
+    top:-35px;
+    right:18px;
+}
 
         @keyframes cloudMove {
             0% {
@@ -108,14 +146,15 @@
         }
 
         .result {
+            margin-top: 50px;
             position: relative;
             z-index: 5;
             padding: 18px 30px;
             border-radius: 12px;
             font-size: 28px;
             font-weight: bold;
-            backdrop-filter: blur(5px);
-            background: rgba(255, 255, 255, .25);
+            /* backdrop-filter: blur(5px); */
+            /* background: rgba(255, 255, 255, .25); */
             color: white;
         }
 
