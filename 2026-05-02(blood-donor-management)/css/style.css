@@ -852,6 +852,213 @@ tbody tr:hover {
   flex-wrap: wrap;
 }
 
+/* ════════════════════════════════════════════
+   BLOOD ANIMATIONS
+════════════════════════════════════════════ */
+
+/* ── 1. Floating blood drops background (login page) ── */
+.blood-drops {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.drop {
+  position: absolute;
+  top: -60px;
+  font-size: 22px;
+  opacity: 0;
+  animation: dropFall linear infinite;
+  user-select: none;
+}
+
+/* Each drop gets a different column, size, speed, delay */
+.drop:nth-child(1)  { left:  5%; font-size: 18px; animation-duration: 8s;  animation-delay: 0s;   }
+.drop:nth-child(2)  { left: 12%; font-size: 26px; animation-duration: 11s; animation-delay: 1.5s; }
+.drop:nth-child(3)  { left: 20%; font-size: 16px; animation-duration: 7s;  animation-delay: 3s;   }
+.drop:nth-child(4)  { left: 30%; font-size: 22px; animation-duration: 9s;  animation-delay: 0.8s; }
+.drop:nth-child(5)  { left: 40%; font-size: 14px; animation-duration: 12s; animation-delay: 2.2s; }
+.drop:nth-child(6)  { left: 50%; font-size: 28px; animation-duration: 8s;  animation-delay: 4s;   }
+.drop:nth-child(7)  { left: 60%; font-size: 20px; animation-duration: 10s; animation-delay: 1s;   }
+.drop:nth-child(8)  { left: 70%; font-size: 16px; animation-duration: 7s;  animation-delay: 3.5s; }
+.drop:nth-child(9)  { left: 80%; font-size: 24px; animation-duration: 9s;  animation-delay: 0.3s; }
+.drop:nth-child(10) { left: 90%; font-size: 18px; animation-duration: 11s; animation-delay: 2.8s; }
+.drop:nth-child(11) { left: 95%; font-size: 14px; animation-duration: 6s;  animation-delay: 1.8s; }
+.drop:nth-child(12) { left: 25%; font-size: 20px; animation-duration: 13s; animation-delay: 5s;   }
+
+@keyframes dropFall {
+  0%   { transform: translateY(0)    rotate(0deg);   opacity: 0;   }
+  10%  { opacity: 0.18; }
+  80%  { opacity: 0.12; }
+  100% { transform: translateY(110vh) rotate(25deg); opacity: 0;   }
+}
+
+/* ── 2. Heartbeat pulse on the logo drop icon ── */
+.logo-drop {
+  animation: heartbeat 1.8s ease-in-out infinite !important;
+}
+
+@keyframes heartbeat {
+  0%   { transform: scale(1);    box-shadow: 0 8px 32px var(--red-glow); }
+  14%  { transform: scale(1.12); box-shadow: 0 12px 40px rgba(232,25,10,0.5); }
+  28%  { transform: scale(1);    box-shadow: 0 8px 32px var(--red-glow); }
+  42%  { transform: scale(1.07); box-shadow: 0 10px 36px rgba(232,25,10,0.4); }
+  70%  { transform: scale(1);    box-shadow: 0 8px 32px var(--red-glow); }
+  100% { transform: scale(1);    box-shadow: 0 8px 32px var(--red-glow); }
+}
+
+/* ── 3. Blood fill animation on blood type cards ── */
+.blood-cell {
+  position: relative;
+  overflow: hidden;
+  transition: transform .25s ease, box-shadow .25s ease;
+  cursor: default;
+}
+
+.blood-cell::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0%;
+  background: linear-gradient(180deg, rgba(232,25,10,0.18) 0%, rgba(176,16,5,0.08) 100%);
+  transition: height .6s cubic-bezier(.4,0,.2,1);
+  z-index: 0;
+  border-radius: 0 0 12px 12px;
+}
+
+.blood-cell:hover::before {
+  height: 100%;
+}
+
+.blood-cell:hover {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 12px 32px rgba(232,25,10,0.2);
+  border-color: rgba(232,25,10,0.4);
+}
+
+/* Keep text above the fill layer */
+.blood-cell > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── 4. Blood drip on the topbar logo ── */
+.topbar-logo {
+  position: relative;
+}
+
+.topbar-logo::after {
+  content: '🩸';
+  position: absolute;
+  top: 100%;
+  left: 10px;
+  font-size: 12px;
+  opacity: 0;
+  transform: translateY(-4px);
+  animation: drip 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes drip {
+  0%   { opacity: 0;    transform: translateY(-4px); }
+  20%  { opacity: 0.7;  transform: translateY(0px);  }
+  60%  { opacity: 0.5;  transform: translateY(8px);  }
+  100% { opacity: 0;    transform: translateY(18px); }
+}
+
+/* ── 5. Stat card count-up shimmer ── */
+.stat-val {
+  position: relative;
+  display: inline-block;
+}
+
+.stat-card {
+  animation: cardEntrance .5s ease both;
+}
+
+.stat-card:nth-child(1) { animation-delay: .05s; }
+.stat-card:nth-child(2) { animation-delay: .15s; }
+.stat-card:nth-child(3) { animation-delay: .25s; }
+.stat-card:nth-child(4) { animation-delay: .35s; }
+
+@keyframes cardEntrance {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── 6. Blood cell pulse ring on hover ── */
+.blood-cell:hover .blood-type {
+  animation: bloodPulse .5s ease;
+}
+
+@keyframes bloodPulse {
+  0%   { transform: scale(1);    color: var(--red); }
+  50%  { transform: scale(1.2);  color: #ff3322;    }
+  100% { transform: scale(1);    color: var(--red); }
+}
+
+/* ── 7. Table row slide-in ── */
+tbody tr {
+  animation: rowSlide .3s ease both;
+}
+
+@keyframes rowSlide {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Stagger each row */
+tbody tr:nth-child(1)  { animation-delay: .03s; }
+tbody tr:nth-child(2)  { animation-delay: .06s; }
+tbody tr:nth-child(3)  { animation-delay: .09s; }
+tbody tr:nth-child(4)  { animation-delay: .12s; }
+tbody tr:nth-child(5)  { animation-delay: .15s; }
+tbody tr:nth-child(6)  { animation-delay: .18s; }
+tbody tr:nth-child(7)  { animation-delay: .21s; }
+tbody tr:nth-child(8)  { animation-delay: .24s; }
+
+/* ── 8. Modal open animation ── */
+.modal-overlay.open .modal {
+  animation: modalPop .35s cubic-bezier(.34,1.56,.64,1);
+}
+
+@keyframes modalPop {
+  from { opacity: 0; transform: scale(.92) translateY(20px); }
+  to   { opacity: 1; transform: scale(1)   translateY(0); }
+}
+
+/* ── 9. Toast slide-in from right ── */
+#toast.show {
+  display: block;
+  animation: toastIn .35s cubic-bezier(.34,1.56,.64,1);
+}
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translateX(60px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ── 10. Avatar heartbeat on profile ── */
+.avatar-lg {
+  animation: avatarPulse 3s ease-in-out infinite;
+}
+
+@keyframes avatarPulse {
+  0%, 100% { box-shadow: 0 8px 32px var(--red-glow); }
+  50%       { box-shadow: 0 8px 48px rgba(232,25,10,0.5); }
+}
+
+/* ─── ACTION BAR ─── */
+.action-bar {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
 /* ─── RESPONSIVE ─── */
 @media (max-width: 640px) {
   .auth-card {

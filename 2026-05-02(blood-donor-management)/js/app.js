@@ -348,6 +348,12 @@ function renderRequests() {
   `).join('');
 }
 
+// Open the New Request modal
+function openAddRequest() {
+  if (!canWrite()) { denyAccess(); return; }
+  openModal('modal-req');
+}
+
 // Save a new blood request
 function saveRequest() {
   const patient = document.getElementById('r-patient').value.trim();
@@ -453,6 +459,7 @@ function openEditProfile() {
   document.getElementById('p-phone').value = u.phone || '';
   document.getElementById('p-dept').value  = u.dept  || '';
   document.getElementById('p-org').value   = u.org   || '';
+  openModal('modal-profile');
 }
 
 // Save profile changes
@@ -512,6 +519,21 @@ function downloadCSV(data, filename) {
   a.click();
   URL.revokeObjectURL(url);
 }
+
+// ════════════════════════════════════════════
+//   MODAL HELPERS
+// ════════════════════════════════════════════
+function openModal(id)  { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+// Close modal when clicking the dark backdrop
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', e => {
+      if (e.target === overlay) overlay.classList.remove('open');
+    });
+  });
+});
 
 // ════════════════════════════════════════════
 //   TOAST NOTIFICATION
