@@ -1,229 +1,231 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quiz App</title>
-<link rel="stylesheet" href="./style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App</title>
+    <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
 
-<div class="container">
+    <div class="container">
 
-<!-- CONFIG -->
-<div class="config" id="config">
+        <!-- CONFIG -->
+        <div class="config" id="config">
 
-<h1>Quiz Configuration</h1>
+            <h1>Quiz Configuration</h1>
 
-<div class="title">Select Category</div>
+            <div class="title">Select Category</div>
 
-<div class="grid">
-<button class="option cat active" onclick="setCategory(this,'maths')">Maths</button>
-<button class="option cat" onclick="setCategory(this,'physics')">Physics</button>
-<button class="option cat" onclick="setCategory(this,'html')">HTML</button>
-<button class="option cat" onclick="setCategory(this,'js')">JavaScript</button>
-</div>
+            <div class="grid">
+                <button class="option cat active" onclick="setCategory(this,'maths')">Maths</button>
+                <button class="option cat" onclick="setCategory(this,'physics')">Physics</button>
+                <button class="option cat" onclick="setCategory(this,'html')">HTML</button>
+                <button class="option cat" onclick="setCategory(this,'js')">JavaScript</button>
+            </div>
 
-<div class="title">No. of Questions</div>
+            <div class="title">No. of Questions</div>
 
-<div class="grid count">
-<button class="option num" onclick="setCount(this,5)">5</button>
-<button class="option num active" onclick="setCount(this,10)">10</button>
-<button class="option num" onclick="setCount(this,15)">15</button>
-</div>
+            <div class="grid count">
+                <button class="option num" onclick="setCount(this,5)">5</button>
+                <button class="option num active" onclick="setCount(this,10)">10</button>
+                <button class="option num" onclick="setCount(this,15)">15</button>
+            </div>
 
-<button class="start" onclick="startQuiz()">Start Quiz</button>
+            <button class="start" onclick="startQuiz()">Start Quiz</button>
 
-</div>
+        </div>
 
-<!-- QUIZ -->
-<div class="quiz" id="quiz">
+        <!-- QUIZ -->
+        <div class="quiz" id="quiz">
 
-<div class="header">Quiz Application</div>
+            <div class="header">Quiz Application</div>
 
-<div class="body">
-<div class="question" id="question"></div>
-<div class="answers" id="answers"></div>
-</div>
+            <div class="body">
+                <div class="question" id="question"></div>
+                <div class="answers" id="answers"></div>
+            </div>
 
-<div class="footer">
-<div id="progress"></div>
-<button class="next" id="nextBtn" onclick="nextQuestion()" disabled>Next</button>
-</div>
+            <div class="footer">
+                <div id="progress"></div>
+                <button class="next" id="nextBtn" onclick="nextQuestion()" disabled>Next</button>
+            </div>
 
-</div>
+        </div>
 
-<!-- RESULT -->
-<div class="result" id="result">
-<h2>🎉 Quiz Completed!</h2>
-<p id="score"></p>
-<button class="retry" onclick="location.reload()">Try Again</button>
-</div>
+        <!-- RESULT -->
+        <div class="result" id="result">
+            <h2>🎉 Quiz Completed!</h2>
+            <p id="score"></p>
+            <button class="retry" onclick="location.reload()">Try Again</button>
+        </div>
 
-</div>
+    </div>
 
-<script>
+    <script>
 
-let category="maths";
-let total=10;
-let current=0;
-let marks=0;
+        let category = "maths";
+        let total = 10;
+        let current = 0;
+        let marks = 0;
 
-function setCategory(btn,name){
-document.querySelectorAll(".cat").forEach(x=>x.classList.remove("active"));
-btn.classList.add("active");
-category=name;
-}
+        function setCategory(btn, name) {
+            document.querySelectorAll(".cat").forEach(x => x.classList.remove("active"));
+            btn.classList.add("active");
+            category = name;
+        }
 
-function setCount(btn,num){
-document.querySelectorAll(".num").forEach(x=>x.classList.remove("active"));
-btn.classList.add("active");
-total=num;
-}
+        function setCount(btn, num) {
+            document.querySelectorAll(".num").forEach(x => x.classList.remove("active"));
+            btn.classList.add("active");
+            total = num;
+        }
 
-const db={
+        const db = {
 
-maths:[
-{q:"2 + 2 = ?",a:["2","3","4","5"],c:"4"},
-{q:"5 + 3 = ?",a:["8","6","7","9"],c:"8"},
-{q:"10 - 4 = ?",a:["5","6","7","8"],c:"6"},
-{q:"3 x 3 = ?",a:["6","9","12","3"],c:"9"},
-{q:"12 / 4 = ?",a:["2","3","4","5"],c:"3"},
-{q:"7 + 8 = ?",a:["13","14","15","16"],c:"15"},
-{q:"9 - 2 = ?",a:["6","7","8","9"],c:"7"},
-{q:"6 x 2 = ?",a:["10","11","12","13"],c:"12"},
-{q:"15 / 3 = ?",a:["4","5","6","7"],c:"5"},
-{q:"20 - 5 = ?",a:["10","15","18","12"],c:"15"},
-{q:"11 + 1 = ?",a:["11","12","13","14"],c:"12"},
-{q:"8 x 2 = ?",a:["14","15","16","18"],c:"16"},
-{q:"18 / 2 = ?",a:["7","8","9","10"],c:"9"},
-{q:"25 - 10 = ?",a:["10","15","20","18"],c:"15"},
-{q:"4 + 9 = ?",a:["11","12","13","14"],c:"13"}
-],
+            maths: [
+                { q: "2 + 2 = ?", a: ["2", "3", "4", "5"], c: "4" },
+                { q: "5 + 3 = ?", a: ["8", "6", "7", "9"], c: "8" },
+                { q: "10 - 4 = ?", a: ["5", "6", "7", "8"], c: "6" },
+                { q: "3 x 3 = ?", a: ["6", "9", "12", "3"], c: "9" },
+                { q: "12 / 4 = ?", a: ["2", "3", "4", "5"], c: "3" },
+                { q: "7 + 8 = ?", a: ["13", "14", "15", "16"], c: "15" },
+                { q: "9 - 2 = ?", a: ["6", "7", "8", "9"], c: "7" },
+                { q: "6 x 2 = ?", a: ["10", "11", "12", "13"], c: "12" },
+                { q: "15 / 3 = ?", a: ["4", "5", "6", "7"], c: "5" },
+                { q: "20 - 5 = ?", a: ["10", "15", "18", "12"], c: "15" },
+                { q: "11 + 1 = ?", a: ["11", "12", "13", "14"], c: "12" },
+                { q: "8 x 2 = ?", a: ["14", "15", "16", "18"], c: "16" },
+                { q: "18 / 2 = ?", a: ["7", "8", "9", "10"], c: "9" },
+                { q: "25 - 10 = ?", a: ["10", "15", "20", "18"], c: "15" },
+                { q: "4 + 9 = ?", a: ["11", "12", "13", "14"], c: "13" }
+            ],
 
-physics:[
-{q:"Unit of Force?",a:["Newton","Volt","Joule","Watt"],c:"Newton"},
-{q:"Unit of Speed?",a:["kg","m/s","L","cm"],c:"m/s"},
-{q:"Sun is a?",a:["Planet","Moon","Star","Rock"],c:"Star"},
-{q:"Gravity discovered by?",a:["Newton","Tesla","Einstein","Edison"],c:"Newton"},
-{q:"Boiling point of water?",a:["50°C","100°C","80°C","0°C"],c:"100°C"},
-{q:"Unit of Energy?",a:["Newton","Joule","Volt","Amp"],c:"Joule"},
-{q:"Earth is a?",a:["Star","Planet","Gas","Moon"],c:"Planet"},
-{q:"Light travels fastest in?",a:["Water","Vacuum","Glass","Air"],c:"Vacuum"},
-{q:"SI unit of Mass?",a:["kg","m","s","L"],c:"kg"},
-{q:"Moon is Earth's?",a:["Planet","Star","Satellite","Comet"],c:"Satellite"},
-{q:"Who invented bulb?",a:["Newton","Edison","Tesla","Bell"],c:"Edison"},
-{q:"Voltage unit?",a:["Volt","Watt","Newton","Pascal"],c:"Volt"},
-{q:"Current unit?",a:["Ampere","Volt","Ohm","Meter"],c:"Ampere"},
-{q:"Unit of Power?",a:["Watt","Joule","Newton","Volt"],c:"Watt"},
-{q:"Speed of light symbol?",a:["g","c","v","m"],c:"c"}
-],
+            physics: [
+                { q: "Unit of Force?", a: ["Newton", "Volt", "Joule", "Watt"], c: "Newton" },
+                { q: "Unit of Speed?", a: ["kg", "m/s", "L", "cm"], c: "m/s" },
+                { q: "Sun is a?", a: ["Planet", "Moon", "Star", "Rock"], c: "Star" },
+                { q: "Gravity discovered by?", a: ["Newton", "Tesla", "Einstein", "Edison"], c: "Newton" },
+                { q: "Boiling point of water?", a: ["50°C", "100°C", "80°C", "0°C"], c: "100°C" },
+                { q: "Unit of Energy?", a: ["Newton", "Joule", "Volt", "Amp"], c: "Joule" },
+                { q: "Earth is a?", a: ["Star", "Planet", "Gas", "Moon"], c: "Planet" },
+                { q: "Light travels fastest in?", a: ["Water", "Vacuum", "Glass", "Air"], c: "Vacuum" },
+                { q: "SI unit of Mass?", a: ["kg", "m", "s", "L"], c: "kg" },
+                { q: "Moon is Earth's?", a: ["Planet", "Star", "Satellite", "Comet"], c: "Satellite" },
+                { q: "Who invented bulb?", a: ["Newton", "Edison", "Tesla", "Bell"], c: "Edison" },
+                { q: "Voltage unit?", a: ["Volt", "Watt", "Newton", "Pascal"], c: "Volt" },
+                { q: "Current unit?", a: ["Ampere", "Volt", "Ohm", "Meter"], c: "Ampere" },
+                { q: "Unit of Power?", a: ["Watt", "Joule", "Newton", "Volt"], c: "Watt" },
+                { q: "Speed of light symbol?", a: ["g", "c", "v", "m"], c: "c" }
+            ],
 
-html:[
-{q:"HTML stands for?",a:["Hyper Text Markup Language","High Text","Home Tool","None"],c:"Hyper Text Markup Language"},
-{q:"Heading tag?",a:["h1","p","div","head"],c:"h1"},
-{q:"Paragraph tag?",a:["p","para","text","span"],c:"p"},
-{q:"Line break tag?",a:["br","lb","hr","break"],c:"br"},
-{q:"Image tag?",a:["img","pic","src","image"],c:"img"},
-{q:"Link tag uses?",a:["a","p","h1","div"],c:"a"},
-{q:"Table row tag?",a:["tr","td","th","tb"],c:"tr"},
-{q:"Bold tag?",a:["b","strong","i","u"],c:"b"},
-{q:"List item tag?",a:["li","ul","ol","dl"],c:"li"},
-{q:"HTML file extension?",a:[".html",".css",".js",".java"],c:".html"},
-{q:"Horizontal line tag?",a:["hr","br","line","hl"],c:"hr"},
-{q:"Form tag?",a:["form","input","label","submit"],c:"form"},
-{q:"Input tag?",a:["input","type","textbox","field"],c:"input"},
-{q:"Ordered list tag?",a:["ol","ul","li","dl"],c:"ol"},
-{q:"Unordered list tag?",a:["ul","ol","li","set"],c:"ul"}
-],
+            html: [
+                { q: "HTML stands for?", a: ["Hyper Text Markup Language", "High Text", "Home Tool", "None"], c: "Hyper Text Markup Language" },
+                { q: "Heading tag?", a: ["h1", "p", "div", "head"], c: "h1" },
+                { q: "Paragraph tag?", a: ["p", "para", "text", "span"], c: "p" },
+                { q: "Line break tag?", a: ["br", "lb", "hr", "break"], c: "br" },
+                { q: "Image tag?", a: ["img", "pic", "src", "image"], c: "img" },
+                { q: "Link tag uses?", a: ["a", "p", "h1", "div"], c: "a" },
+                { q: "Table row tag?", a: ["tr", "td", "th", "tb"], c: "tr" },
+                { q: "Bold tag?", a: ["b", "strong", "i", "u"], c: "b" },
+                { q: "List item tag?", a: ["li", "ul", "ol", "dl"], c: "li" },
+                { q: "HTML file extension?", a: [".html", ".css", ".js", ".java"], c: ".html" },
+                { q: "Horizontal line tag?", a: ["hr", "br", "line", "hl"], c: "hr" },
+                { q: "Form tag?", a: ["form", "input", "label", "submit"], c: "form" },
+                { q: "Input tag?", a: ["input", "type", "textbox", "field"], c: "input" },
+                { q: "Ordered list tag?", a: ["ol", "ul", "li", "dl"], c: "ol" },
+                { q: "Unordered list tag?", a: ["ul", "ol", "li", "set"], c: "ul" }
+            ],
 
-js:[
-{q:"Declare variable?",a:["let","go","make","new"],c:"let"},
-{q:"Popup method?",a:["alert()","msg()","show()","popup()"],c:"alert()"},
-{q:"Console print?",a:["console.log()","print()","echo()","write()"],c:"console.log()"},
-{q:"Array loop method?",a:["forEach()","join()","push()","slice()"],c:"forEach()"},
-{q:"DOM means?",a:["Document Object Model","Data Object","Done Object","None"],c:"Document Object Model"},
-{q:"Condition keyword?",a:["if","for","loop","case"],c:"if"},
-{q:"Function keyword?",a:["function","fun","def","method"],c:"function"},
-{q:"Strict equality?",a:["===","==","!=","<>"],c:"==="},
-{q:"Comment single line?",a:["//","<!--","#","**"],c:"//"},
-{q:"Array add end?",a:["push()","pop()","shift()","slice()"],c:"push()"},
-{q:"Remove last?",a:["pop()","push()","shift()","join()"],c:"pop()"},
-{q:"Length property?",a:["length","size","count","total"],c:"length"},
-{q:"Boolean values?",a:["true false","yes no","1 0","on off"],c:"true false"},
-{q:"Prompt method?",a:["prompt()","ask()","input()","msg()"],c:"prompt()"},
-{q:"Random method?",a:["Math.random()","random()","num()","Math.num()"],c:"Math.random()"}
-]
+            js: [
+                { q: "Declare variable?", a: ["let", "go", "make", "new"], c: "let" },
+                { q: "Popup method?", a: ["alert()", "msg()", "show()", "popup()"], c: "alert()" },
+                { q: "Console print?", a: ["console.log()", "print()", "echo()", "write()"], c: "console.log()" },
+                { q: "Array loop method?", a: ["forEach()", "join()", "push()", "slice()"], c: "forEach()" },
+                { q: "DOM means?", a: ["Document Object Model", "Data Object", "Done Object", "None"], c: "Document Object Model" },
+                { q: "Condition keyword?", a: ["if", "for", "loop", "case"], c: "if" },
+                { q: "Function keyword?", a: ["function", "fun", "def", "method"], c: "function" },
+                { q: "Strict equality?", a: ["===", "==", "!=", "<>"], c: "===" },
+                { q: "Comment single line?", a: ["//", "<!--" ,"#" ,"**"] ,c :"// "},
+                { q: "Array add end?", a: ["push()", "pop()", "shift()", "slice()"], c: "push()" },
+                { q: "Remove last?", a: ["pop()", "push()", "shift()", "join()"], c: "pop()" },
+                { q: "Length property?", a: ["length", "size", "count", "total"], c: "length" },
+                { q: "Boolean values?", a: ["true false", "yes no", "1 0", "on off"], c: "true false" },
+                { q: "Prompt method?", a: ["prompt()", "ask()", "input()", "msg()"], c: "prompt()" },
+                { q: "Random method?", a: ["Math.random()", "random()", "num()", "Math.num()"], c: "Math.random()" }
+            ]
 
-};
+        };
 
-let questions=[];
+        let questions = [];
 
-function startQuiz(){
-questions=db[category].slice(0,total);
+        function startQuiz() {
+            questions = db[category].slice(0, total);
 
-document.getElementById("config").style.display="none";
-document.getElementById("quiz").style.display="block";
+            document.getElementById("config").style.display = "none";
+            document.getElementById("quiz").style.display = "block";
 
-showQuestion();
-}
+            showQuestion();
+        }
 
-function showQuestion(){
+        function showQuestion() {
 
-let q=questions[current];
+            let q = questions[current];
 
-document.getElementById("question").innerText=q.q;
+            document.getElementById("question").innerText = q.q;
 
-let txt="";
+            let txt = "";
 
-q.a.forEach(function(ans){
-txt += `<button onclick="checkAnswer(this,'${ans}')">${ans}</button>`;
-});
+            q.a.forEach(function (ans) {
+                txt += `<button onclick="checkAnswer(this,'${ans}')">${ans}</button>`;
+            });
 
-document.getElementById("answers").innerHTML=txt;
+            document.getElementById("answers").innerHTML = txt;
 
-document.getElementById("progress").innerText=
-(current+1)+" of "+questions.length+" Questions";
+            document.getElementById("progress").innerText =
+                (current + 1) + " of " + questions.length + " Questions";
 
-document.getElementById("nextBtn").disabled=true;
-}
+            document.getElementById("nextBtn").disabled = true;
+        }
 
-function checkAnswer(btn,ans){
+        function checkAnswer(btn, ans) {
 
-let correct=questions[current].c;
+            let correct = questions[current].c;
 
-if(ans===correct){
-marks++;
-btn.style.background="green";
-btn.style.color="white";
-}else{
-btn.style.background="red";
-btn.style.color="white";
-}
+            if (ans === correct) {
+                marks++;
+                btn.style.background = "green";
+                btn.style.color = "white";
+            } else {
+                btn.style.background = "red";
+                btn.style.color = "white";
+            }
 
-document.querySelectorAll(".answers button").forEach(x=>x.disabled=true);
+            document.querySelectorAll(".answers button").forEach(x => x.disabled = true);
 
-document.getElementById("nextBtn").disabled=false;
-}
+            document.getElementById("nextBtn").disabled = false;
+        }
 
-function nextQuestion(){
+        function nextQuestion() {
 
-current++;
+            current++;
 
-if(current<questions.length){
-showQuestion();
-}else{
-document.getElementById("quiz").style.display="none";
-document.getElementById("result").style.display="block";
+            if (current < questions.length) {
+                showQuestion();
+            } else {
+                document.getElementById("quiz").style.display = "none";
+                document.getElementById("result").style.display = "block";
 
-document.getElementById("score").innerText=
-"You answered "+marks+" out of "+questions.length+" correctly.";
-}
+                document.getElementById("score").innerText =
+                    "You answered " + marks + " out of " + questions.length + " correctly.";
+            }
 
-}
+        }
 
-</script>
+    </script>
 
 </body>
+
 </html>
