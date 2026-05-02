@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<!--
+  dashboard/index.html
+  ─────────────────────────────────────────────
+  Main dashboard for GiftOfLife.
+  Requires a valid session (set during login).
+  If no session exists, app.js redirects to login.
+
+  Tabs:
+    📊 Overview  — stats + blood type chart
+    🩸 Donors    — donor list with add/edit/delete
+    📋 Requests  — blood requests with fulfill/delete
+    👤 Profile   — logged-in user info + edit
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GiftOfLife — Dashboard</title>
+  <link rel="icon" type="image/png" href="../blood.png">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Shared stylesheet -->
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <!-- DASHBOARD PAGE -->
+  <div id="page-dashboard" class="page active">
+
+    <!-- ── Top Navigation Bar ── -->
+    <div class="topbar">
+      <div class="topbar-logo">🩸 <span>GiftOf</span>Life</div>
+      <div class="topbar-right">
+        <!-- Clicking the chip goes to the Profile tab -->
+        <div class="user-chip" onclick="goTab('profile')">
+          <div class="avatar" id="top-avatar">AB</div>
+          <span class="user-name" id="top-name">Admin</span>
+        </div>
+        <button class="btn btn-ghost btn-sm" onclick="doLogout()">Logout</button>
+      </div>
+    </div>
+
+    <!-- ── Tab Navigation ── -->
+    <div class="nav-tabs">
+      <button class="nav-tab active" onclick="goTab('overview')">📊 Overview</button>
+      <button class="nav-tab" onclick="goTab('donors')">🩸 Donors</button>
+      <button class="nav-tab" onclick="goTab('requests')">📋 Requests</button>
+      <button class="nav-tab" onclick="goTab('profile')">👤 My Profile</button>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         TAB: Overview
+    ══════════════════════════════════════ -->
+    <div id="tab-overview" class="section active">
+      <div class="section-title">Dashboard Overview</div>
+
+      <!-- Summary stat cards -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon red">🩸</div>
+          <div>
+            <div class="stat-val" id="stat-total">0</div>
+            <div class="stat-label">Total Donors</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green">✅</div>
+          <div>
+            <div class="stat-val" id="stat-available">0</div>
+            <div class="stat-label">Available</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon yellow">⚠️</div>
+          <div>
+            <div class="stat-val" id="stat-pending">0</div>
+            <div class="stat-label">Pending Requests</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon blue">🏥</div>
+          <div>
+            <div class="stat-val" id="stat-fulfilled">0</div>
+            <div class="stat-label">Fulfilled</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Blood type distribution -->
+      <div class="section-title" style="font-size:20px">Blood Type Distribution</div>
+      <div class="blood-grid" id="blood-grid"></div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         TAB: Donors
+    ══════════════════════════════════════ -->
+    <div id="tab-donors" class="section">
+      <div class="table-header">
+        <div class="table-title">All Donors</div>
+        <div class="action-bar">
+          <div class="search-bar">
+            🔍 <input type="text" id="donor-search" placeholder="Search by name, type…" oninput="renderDonors()">
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="openAddDonor()">+ Add Donor</button>
+          <button class="btn btn-success btn-sm" onclick="exportExcel()">⬇ Export Excel</button>
+        </div>
+      </div>
+      <div class="table-wrap" style="border-top:none;border-radius:0 0 16px 16px">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Blood Type</th>
+              <th>Age</th>
+              <th>Phone</th>
+              <th>City</th>
+              <th>Status</th>
+              <th>Last Donation</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="donor-tbody"></tbody>
+        </table>
+        <div id="donor-empty" class="empty" style="display:none">
+          <div class="empty-icon">🩸</div>
+          <p>No donors found. Add your first donor!</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         TAB: Requests
+    ══════════════════════════════════════ -->
+    <div id="tab-requests" class="section">
+      <div class="table-header">
+        <div class="table-title">Blood Requests</div>
+        <div class="action-bar">
+          <button class="btn btn-primary btn-sm" onclick="openAddRequest()">+ New Request</button>
+          <button class="btn btn-success btn-sm" onclick="exportRequestsExcel()">⬇ Export Excel</button>
+        </div>
+      </div>
+      <div class="table-wrap" style="border-top:none;border-radius:0 0 16px 16px">
+        <table>
+          <thead>
+            <tr>
+              <th>Patient</th>
+              <th>Blood Type</th>
+              <th>Units</th>
+              <th>Hospital</th>
+              <th>Priority</th>
+              <th>Status</th>
+              <th>Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="req-tbody"></tbody>
+        </table>
+        <div id="req-empty" class="empty" style="display:none">
+          <div class="empty-icon">📋</div>
+          <p>No requests yet.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         TAB: Profile
+    ══════════════════════════════════════ -->
+    <div id="tab-profile" class="section">
+      <div class="section-title">My Profile</div>
+      <div class="profile-hero">
+        <div class="avatar-lg" id="profile-avatar">AB</div>
+        <div class="profile-info">
+          <h2 id="profile-name">Admin User</h2>
+          <p id="profile-email">admin@giftoflife.com</p>
+          <div class="profile-badges">
+            <span class="badge badge-red" id="profile-role">Admin</span>
+            <span class="badge badge-green">● Active</span>
+          </div>
+        </div>
+        <div style="margin-left:auto">
+          <button class="btn btn-ghost btn-sm" onclick="openEditProfile()">✏ Edit Profile</button>
+        </div>
+      </div>
+      <!-- Filled dynamically by renderProfile() in app.js -->
+      <div class="profile-grid" id="profile-grid"></div>
+    </div>
+
+  </div><!-- end #page-dashboard -->
+
+  <!-- ══════════════════════════════════════
+       MODAL: Add / Edit Donor
+  ══════════════════════════════════════ -->
+  <div class="modal-overlay" id="modal-donor">
+    <div class="modal">
+      <div class="modal-head">
+        <div class="modal-title" id="modal-donor-title">Add New Donor</div>
+        <button class="modal-close" onclick="closeModal('modal-donor')">✕</button>
+      </div>
+      <div class="modal-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" id="d-fname" placeholder="Arjun">
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" id="d-lname" placeholder="Kumar">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Blood Type</label>
+            <select id="d-blood">
+              <option>A+</option><option>A-</option>
+              <option>B+</option><option>B-</option>
+              <option>AB+</option><option>AB-</option>
+              <option>O+</option><option>O-</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Age</label>
+            <input type="number" id="d-age" placeholder="28" min="18" max="65">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="tel" id="d-phone" placeholder="+91 9876543210">
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="d-email" placeholder="donor@email.com">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>City</label>
+            <input type="text" id="d-city" placeholder="Chennai">
+          </div>
+          <div class="form-group">
+            <label>Last Donation</label>
+            <input type="date" id="d-lastdon">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Status</label>
+          <select id="d-status">
+            <option value="available">Available</option>
+            <option value="donated">Recently Donated</option>
+            <option value="ineligible">Ineligible</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Medical Notes</label>
+          <textarea id="d-notes" placeholder="Any relevant medical history…"></textarea>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" onclick="closeModal('modal-donor')">Cancel</button>
+        <button class="btn btn-primary" onclick="saveDonor()">Save Donor</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       MODAL: New Blood Request
+  ══════════════════════════════════════ -->
+  <div class="modal-overlay" id="modal-req">
+    <div class="modal">
+      <div class="modal-head">
+        <div class="modal-title">New Blood Request</div>
+        <button class="modal-close" onclick="closeModal('modal-req')">✕</button>
+      </div>
+      <div class="modal-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Patient Name</label>
+            <input type="text" id="r-patient" placeholder="Patient Name">
+          </div>
+          <div class="form-group">
+            <label>Blood Type Needed</label>
+            <select id="r-blood">
+              <option>A+</option><option>A-</option>
+              <option>B+</option><option>B-</option>
+              <option>AB+</option><option>AB-</option>
+              <option>O+</option><option>O-</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Units Required</label>
+            <input type="number" id="r-units" placeholder="2" min="1">
+          </div>
+          <div class="form-group">
+            <label>Hospital</label>
+            <input type="text" id="r-hospital" placeholder="Apollo Hospital">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Priority</label>
+          <select id="r-priority">
+            <option value="normal">Normal</option>
+            <option value="urgent">Urgent</option>
+            <option value="critical">Critical</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Notes</label>
+          <textarea id="r-notes" placeholder="Additional details…"></textarea>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" onclick="closeModal('modal-req')">Cancel</button>
+        <button class="btn btn-primary" onclick="saveRequest()">Submit Request</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       MODAL: Edit Profile
+  ══════════════════════════════════════ -->
+  <div class="modal-overlay" id="modal-profile">
+    <div class="modal">
+      <div class="modal-head">
+        <div class="modal-title">Edit Profile</div>
+        <button class="modal-close" onclick="closeModal('modal-profile')">✕</button>
+      </div>
+      <div class="modal-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" id="p-fname">
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" id="p-lname">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="p-email">
+        </div>
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="tel" id="p-phone">
+        </div>
+        <div class="form-group">
+          <label>Department</label>
+          <input type="text" id="p-dept" placeholder="Haematology">
+        </div>
+        <div class="form-group">
+          <label>Hospital / Organization</label>
+          <input type="text" id="p-org" placeholder="Apollo Hospital Chennai">
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" onclick="closeModal('modal-profile')">Cancel</button>
+        <button class="btn btn-primary" onclick="saveProfile()">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast notification -->
+  <div id="toast"></div>
+
+  <!-- Shared JavaScript -->
+  <script src="../js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<!--
+  index.html
+  ─────────────────────────────────────────────
+  Entry point for GiftOfLife.
+  Checks if the user is already logged in:
+    - If yes  → goes to dashboard
+    - If no   → goes to login page
+  This keeps the root URL working cleanly.
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GiftOfLife</title>
+  <link rel="icon" type="image/png" href="blood.png">
+</head>
+<body>
+  <script>
+    // Check for an active session in localStorage
+    const session = JSON.parse(localStorage.getItem('session') || 'null');
+    if (session) {
+      // Already logged in — go straight to dashboard
+      window.location.href = 'dashboard/index.html';
+    } else {
+      // Not logged in — go to login page
+      window.location.href = 'auth/login.html';
+    }
+  </script>
+</body>
+</html>
