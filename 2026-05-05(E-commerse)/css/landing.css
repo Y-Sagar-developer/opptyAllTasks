@@ -1,0 +1,92 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.landing-container {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.landing-logo {
+  font-size: 3rem;
+  margin-bottom: 16px;
+}
+
+.landing-title {
+  font-size: 2.8rem;
+  color: #fff;
+  font-weight: 700;
+  margin-bottom: 12px;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.landing-subtitle {
+  font-size: 1.1rem;
+  color: rgba(255,255,255,0.85);
+  margin-bottom: 50px;
+}
+
+.landing-buttons {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 200px;
+  border-radius: 20px;
+  text-decoration: none;
+  cursor: pointer;
+  padding: 20px;
+  border: none;
+}
+
+.btn-user {
+  background: linear-gradient(135deg, #f093fb, #f5576c);
+  color: white;
+  box-shadow: 0 10px 30px rgba(240, 147, 251, 0.4);
+}
+
+.btn-admin {
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  color: white;
+  box-shadow: 0 10px 30px rgba(79, 172, 254, 0.4);
+}
+
+.btn-icon {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+
+.btn-label {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.btn-desc {
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+@media (max-width: 480px) {
+  .landing-title { font-size: 2rem; }
+  .btn { width: 160px; height: 160px; }
+}
