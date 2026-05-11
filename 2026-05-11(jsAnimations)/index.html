@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>3 Animations</title>
+
+    <style>
+        body {
+            background: black;
+            padding: 20px;
+            color: white;
+            font-family: Arial;
+        }
+
+        .container {
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+
+        /* ===================
+           Move Box
+        =================== */
+        .demo-area {
+            width: 100%;
+            height: 100px;
+            position: relative;
+        }
+
+        #moveBox {
+            width: 60px;
+            height: 60px;
+            background: purple;
+            border-radius: 10px;
+            position: absolute;
+            left: 18px;
+            top: 20px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        /* ===================
+           Fade Box
+        =================== */
+        #fadeBox {
+            width: 100px;
+            height: 100px;
+            background: purple;
+            border-radius: 10px;
+            opacity: 1;
+        }
+
+        /* ===================
+           Typewriter
+        =================== */
+        #text {
+            font-size: 35px;
+            color: cyan;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ==========================
+         1. MOVE BOX CONTAINER
+    ========================== -->
+    <div class="container">
+
+        <h2>Move Box Animation</h2>
+
+        <button onclick="startMove()">
+            Move Box
+        </button>
+
+        <div class="demo-area">
+            <div id="moveBox">📦</div>
+        </div>
+
+    </div>
+<hr>
+
+    <!-- ==========================
+         2. FADE BOX CONTAINER
+    ========================== -->
+    <div class="container">
+
+        <h2>Fade Animation</h2>
+
+        <button onclick="startFade()">
+            Fade Box
+        </button>
+
+        <div id="fadeBox"></div>
+
+    </div>
+
+<hr>
+    <!-- ==========================
+         3. TYPEWRITER CONTAINER
+    ========================== -->
+    <div class="container">
+
+        <h2>Typewriter Effect</h2>
+
+        <button onclick="startTyping()">
+            Start Typing
+        </button>
+
+        <h1 id="text"></h1>
+
+    </div>
+
+
+    <script>
+
+        /* ==========================
+           1. MOVE BOX SCRIPT
+        ========================== */
+
+        let moveBox = document.getElementById("moveBox");
+        let position = 18;
+
+        function startMove() {
+
+            position = 18;
+
+            let moveInterval = setInterval(function () {
+
+                position += 2;
+
+                moveBox.style.left = position + "px";
+
+                if (position > 1200) {
+                    clearInterval(moveInterval);
+                }
+
+            }, 16);
+        }
+
+
+        /* ==========================
+           2. FADE BOX SCRIPT
+        ========================== */
+
+        let fadeBox = document.getElementById("fadeBox");
+
+        let opacity = 1;
+        let fadeOut = true;
+
+        function startFade() {
+
+            opacity = 1;
+            fadeOut = true;
+
+            fadeEffect();
+        }
+
+        function fadeEffect() {
+
+            if (fadeOut) {
+
+                opacity -= 0.05;
+
+                if (opacity <= 0) {
+                    fadeOut = false;
+                }
+
+            } else {
+
+                opacity += 0.05;
+
+                if (opacity >= 1) {
+                    return;
+                }
+            }
+
+            fadeBox.style.opacity = opacity;
+
+            setTimeout(fadeEffect, 30);
+        }
+
+
+        /* ==========================
+           3. TYPEWRITER SCRIPT
+        ========================== */
+
+        let text = "Hello World!";
+        let index = 0;
+
+        function startTyping() {
+
+            document.getElementById("text").innerHTML = "";
+            index = 0;
+
+            typeWriter();
+        }
+
+        function typeWriter() {
+
+            document.getElementById("text").innerHTML += text[index];
+
+            index++;
+
+            if (index < text.length) {
+                setTimeout(typeWriter, 100);
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>
