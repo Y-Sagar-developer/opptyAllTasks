@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Red Snake Game</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+/* BODY */
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#2b0a0a,#140505);
+}
+
+/* MAIN CONTAINER */
+
+.container{
+width:320px;
+padding:18px;
+border-radius:16px;
+background:#1a0808;
+box-shadow:0 10px 40px rgba(255,0,0,.2);
+border:2px solid #ff3b3b;
+}
+
+/* TOP */
+
+.top{
+display:flex;
+justify-content:center;
+margin-bottom:15px;
+}
+
+/* SCORE BOX */
+
+.box{
+background:#2b1111;
+color:white;
+padding:10px 16px;
+border-radius:10px;
+font-size:18px;
+font-weight:bold;
+border:1px solid #ff4d4d;
+}
+
+/* GAME BOARD */
+
+canvas{
+background:#140707;
+border-radius:12px;
+display:block;
+margin:auto;
+border:2px solid #ff3b3b;
+
+background-image:
+linear-gradient(rgba(255,0,0,.08) 1px, transparent 1px),
+linear-gradient(90deg, rgba(255,0,0,.08) 1px, transparent 1px);
+
+background-size:20px 20px;
+}
+
+/* GAME OVER */
+
+.gameOver{
+display:none;
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:#1a0808;
+padding:25px;
+border-radius:14px;
+text-align:center;
+width:260px;
+border:2px solid #ff3b3b;
+box-shadow:0 10px 30px rgba(255,0,0,.3);
+color:white;
+}
+
+.gameOver h2{
+margin-bottom:15px;
+}
+
+.gameOver p{
+font-size:22px;
+margin-bottom:20px;
+}
+
+.gameOver button{
+padding:10px 20px;
+border:none;
+background:#ff3b3b;
+color:white;
+font-size:18px;
+border-radius:10px;
+cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="top">
+
+<div class="box">
+⭐ Score : <span id="score">0</span>
+</div>
+
+</div>
+
+<canvas id="game" width="260" height="260"></canvas>
+
+</div>
+
+<!-- GAME OVER -->
+
+<div class="gameOver" id="gameOverBox">
+
+<h2>Game Over</h2>
+
+<p>Your Score : <span id="finalScore">0</span></p>
+
+<button onclick="location.reload()">Play Again</button>
+
+</div>
+
+<script>
+
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+
+const box = 20;
+
+let score = 0;
+
+/* SNAKE */
+
+let snake = [
+{x:100,y:0},
+{x:80,y:0},
+{x:60,y:0}
+];
+
+/* FRUITS */
+
+const fruits = ["🍎","🍒","🍇","🍉","🍊"];
+
+let fruit = fruits[Math.floor(Math.random()*fruits.length)];
+
+let food = {
+x:140,
+y:140
+};
+
+/* START DIRECTION */
+
+let direction = "DOWN";
+
+/* KEYBOARD */
+
+window.addEventListener("keydown",changeDirection);
+
+function changeDirection(e){
+
+if(e.key==="ArrowUp" && direction!=="DOWN"){
+direction="UP";
+}
+
+else if(e.key==="ArrowDown" && direction!=="UP"){
+direction="DOWN";
+}
+
+else if(e.key==="ArrowLeft" && direction!=="RIGHT"){
+direction="LEFT";
+}
+
+else if(e.key==="ArrowRight" && direction!=="LEFT"){
+direction="RIGHT";
+}
+
+}
+
+/* DRAW GAME */
+
+function draw(){
+
+ctx.clearRect(0,0,260,260);
+
+/* DRAW SNAKE */
+
+snake.forEach((part,index)=>{
+
+ctx.fillStyle = index===0 ? "#ff3b3b" : "#ff6666";
+
+ctx.fillRect(part.x,part.y,18,18);
+
+});
+
+/* DRAW FRUIT */
+
+ctx.font = "18px Arial";
+
+ctx.fillText(fruit,food.x,food.y+16);
+
+/* MOVE */
+
+let headX = snake[0].x;
+let headY = snake[0].y;
+
+if(direction==="RIGHT") headX += box;
+if(direction==="LEFT") headX -= box;
+if(direction==="UP") headY -= box;
+if(direction==="DOWN") headY += box;
+
+/* EAT FOOD */
+
+if(headX===food.x && headY===food.y){
+
+score++;
+
+document.getElementById("score").innerText = score;
+
+food = {
+x:Math.floor(Math.random()*13)*20,
+y:Math.floor(Math.random()*13)*20
+};
+
+fruit = fruits[Math.floor(Math.random()*fruits.length)];
+
+}else{
+
+snake.pop();
+
+}
+
+/* NEW HEAD */
+
+const newHead = {
+x:headX,
+y:headY
+};
+
+/* GAME OVER */
+
+if(
+headX < 0 ||
+headY < 0 ||
+headX >= 260 ||
+headY >= 260 ||
+collision(newHead,snake)
+){
+
+clearInterval(game);
+
+document.getElementById("gameOverBox").style.display="block";
+
+document.getElementById("finalScore").innerText = score;
+
+}
+
+/* ADD HEAD */
+
+snake.unshift(newHead);
+
+}
+
+/* COLLISION */
+
+function collision(head,array){
+
+for(let i=0;i<array.length;i++){
+
+if(head.x===array[i].x && head.y===array[i].y){
+return true;
+}
+
+}
+
+return false;
+
+}
+
+/* GAME LOOP */
+
+let game = setInterval(draw,180);
+
+</script>
+
+</body>
+</html>
